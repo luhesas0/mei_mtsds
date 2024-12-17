@@ -6,22 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="calculo_rotas" />
-        <module name="gestao_funcionarios" />
-        <module name="criacao_menu" />
-        <module name="verifica_stock" />
-        <module name="repositorio_entregas" />
+        <module name="eureka-server" />
       </profile>
     </annotationProcessing>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="calculo_rotas" options="-parameters" />
-      <module name="criacao_menu" options="-parameters" />
-      <module name="gestao_funcionarios" options="-parameters" />
-      <module name="my-spring-boot-app" options="" />
-      <module name="repositorio_entregas" options="-parameters" />
-      <module name="verifica_stock" options="-parameters" />
-    </option>
   </component>
 </project>
