@@ -1,0 +1,12 @@
+
+               ,--.                        ,--.
+ ,--,--. ,---. `--',-----. ,---.  ,--,--.,-'  '-. ,---. ,--.   ,--. ,--,--.,--. ,--.
+' ,-.  || .-. |,--.'-----'| .-. |' ,-.  |'-.  .-'| .-. :|  |.'.|  |' ,-.  | \  '  /
+\ '-'  || '-' '|  |       ' '-' '\ '-'  |  |  |  \   --.|   .'.   |\ '-'  |  \   '
+ `--`--'|  |-' `--'       .`-  /  `--`--'  `--'   `----''--'   '--' `--`--'.-'  /
+        `--'              `---'                                            `---'
+${spring.application.title} - Componente de Suporte -${spring.application.version}
+Desenvolvido para ESTG - MTSDS por Célia Paiva - nº8220954
+
+Powered by Spring Boot ${spring-boot.version}
+Run in: ${server.port}
