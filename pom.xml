@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example</groupId>
@@ -15,26 +15,29 @@
 	<!--Modulos do projeto FoodStream-->
 	<modules>
 		<module>eureka-server</module>
-		<!-- Adicionar outros módulos aqui quando criados ou fará automaticamente-->
-		<!-- <module>menu</module> -->
-		<!-- <module>stock</module> -->
-		<!-- <module>repositorio-entregas</module> -->
-		<!-- <module>calculo-rotas</module> -->
-		<!-- <module>funcionarios</module> -->
+		<module>api-gateway</module>
+		<module>calculo_rotas</module>
+		<module>criacao_menu</module>
+		<module>gestao_funcionarios</module>
+		<module>repositorio_entregas</module>
+		<module>verifica_stock</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>17</java.version>
+		<spring.boot.dependendies>3.1.2</spring.boot.dependendies>
 		<spring.boot.version>3.1.2</spring.boot.version>
 		<spring.cloud.version>2022.0.5</spring.cloud.version>
 		<project.lombok>1.18.28</project.lombok>
 		<modelmapper>3.1.1</modelmapper>
+		<jjwt.version>0.11.5</jjwt.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-			<!--Spring Boot-->
+			<!--Spring Boot Dependencies-->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
@@ -42,7 +45,7 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
-			<!--Spring Cloud-->
+			<!--Spring Cloud Dependencies-->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -55,34 +58,35 @@
 
 	<dependencies>
 		<!-- Dependências comuns a todos os módulos -->
+		<!--Spring Starter Web-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<!--Actuator-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-
+		<!--Lombok-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${project.lombok}</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<!--ModelMapper-->
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>${modelmapper}</version>
 		</dependency>
-
+		<!--Slf4j-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-
+		<!--Hibernate Validator-->
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
