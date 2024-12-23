@@ -1,5 +1,6 @@
 package com.example.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class Utilizador implements UserDetails {
    @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_utilizador", unique = true, nullable = false)
-    private String id_utilizador; //Identificador único
+    private String idUtilizador; //Identificador único
 
    @Column(name = "nome", nullable = false,length = 255)
     private String nome; //Nome do utilizador
@@ -30,6 +31,7 @@ public class Utilizador implements UserDetails {
    @Column(name = "email", nullable = false, unique = true,length = 255)
     private String email; //Email unico do utilizador
 
+    @JsonIgnore
    @Column(name = "senha", nullable = false, length = 255)
     private String senha; //Senha criptografada
 
@@ -44,10 +46,12 @@ public class Utilizador implements UserDetails {
 
     //Relacionamento com roles
     @OneToMany(mappedBy = "utilizador", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<UtilizadoresRoles> utilizadoresRoles;
 
     //Relacionamento com logins
     @OneToMany(mappedBy = "utilizador", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<RegistoLogins> registoLogins;
 
     //Métodos de UserDetails para Spring Security

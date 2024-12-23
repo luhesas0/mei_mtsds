@@ -1,5 +1,6 @@
 package com.example.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +16,11 @@ public class RegistoLogins {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_registologins", unique = true, nullable = false)
-    private String id_registologins; //Identificador único
+    private String idRegistoLogins; //Identificador único
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_utilizador", nullable = false)
+    @JsonIgnore
     private Utilizador utilizador; //Fk para a tabela utilizador
 
     @Column(name = "status_login", nullable = false, length = 50)
