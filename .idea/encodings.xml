@@ -3,9 +3,19 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/api-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/api-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/calculo_rotas/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/calculo_rotas/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/criacao_menu/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/criacao_menu/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gestao_utilizadores/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gestao_utilizadores/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/repositorio_entregas/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/repositorio_entregas/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/verifica_stock/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/verifica_stock/src/main/resources" charset="UTF-8" />
   </component>
 </project>

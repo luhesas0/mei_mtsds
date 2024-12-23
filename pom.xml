@@ -18,9 +18,9 @@
 		<module>api-gateway</module>
 		<module>calculo_rotas</module>
 		<module>criacao_menu</module>
-		<module>gestao_utilizadores</module>
 		<module>repositorio_entregas</module>
 		<module>verifica_stock</module>
+		<module>gestao_utilizadores</module>
 	</modules>
 
 	<properties>
