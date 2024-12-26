@@ -31,7 +31,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory <Authenti
             ServerHttpRequest request = exchange.getRequest();
 
             //Verificar se a rota é aberta
-            if(!routeValidator.isSecured(request)){
+            if(!routeValidator.isSecured.test(request)){
                 return chain.filter(exchange); //Permitir acesso a rotas abertas
             }
 

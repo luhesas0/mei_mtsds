@@ -12,11 +12,11 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder){
         return builder.routes()
-                .route("gestao_utilizadores",r->r.path("/utilizadores/").uri("http://localhist:8070"))
-                .route("criacao_menu",r->r.path("/menu/**").uri("http://localhost:8071"))
-                .route("verifica_stock",r->r.path("/stock/**").uri("http://localhost:8072"))
-                .route("repositorio_entregas",r->r.path("/entregas/**").uri("http://localhost:8073"))
-                .route("calculo_rotas",r->r.path("/rotas/**").uri("http://localhost:8074"))
+                .route("utilizadores-route",r->r.path("/utilizadores/").uri("http://localhost:8071"))
+                .route("menu-route",r->r.path("/menu/**").uri("http://localhost:8072"))
+                .route("stock-route",r->r.path("/stock/**").uri("http://localhost:8073"))
+                .route("entregas-route",r->r.path("/entregas/**").uri("http://localhost:8074"))
+                .route("rotas-route",r->r.path("/rotas/**").uri("http://localhost:8075"))
                 .build();
     }
 }
