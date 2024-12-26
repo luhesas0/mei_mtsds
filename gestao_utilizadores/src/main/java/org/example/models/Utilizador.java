@@ -1,4 +1,4 @@
-package com.example.models;
+package org.example.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -23,7 +23,7 @@ public class Utilizador implements UserDetails {
    @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_utilizador", unique = true, nullable = false)
-    private String idUtilizador; //Identificador único
+    private String id; //Identificador único
 
    @Column(name = "nome", nullable = false,length = 255)
     private String nome; //Nome do utilizador
@@ -32,17 +32,17 @@ public class Utilizador implements UserDetails {
     private String email; //Email unico do utilizador
 
     @JsonIgnore
-   @Column(name = "senha", nullable = false, length = 255)
-    private String senha; //Senha criptografada
+   @Column(name = "password", nullable = false, length = 255)
+    private String password; //Senha criptografada
 
    @Column(name = "status", nullable = false, length = 50)
     private String status; //Estado do utilizador (Ativo, Inativo)
 
     @Column(name = "data_criacao",nullable = false,updatable = false)
-    private LocalDateTime dataCriacao; //Data de criação (auditoria)
+    private LocalDateTime data_criacao; //Data de criação (auditoria)
 
-    @Column(name = "dataAtualizacao")
-    private LocalDateTime dataAtualizacao; //Data de última atualização (auditoria)
+    @Column(name = "data_atualizacao")
+    private LocalDateTime data_atualizacao; //Data de última atualização (auditoria)
 
     //Relacionamento com roles
     @OneToMany(mappedBy = "utilizador", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -52,7 +52,7 @@ public class Utilizador implements UserDetails {
     //Relacionamento com logins
     @OneToMany(mappedBy = "utilizador", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<RegistoLogins> registoLogins;
+    private List<RegistoLogins> registologins;
 
     //Métodos de UserDetails para Spring Security
     @Override
@@ -64,7 +64,7 @@ public class Utilizador implements UserDetails {
 
     @Override
     public String getPassword(){
-        return senha;
+        return password;
     }
 
     @Override

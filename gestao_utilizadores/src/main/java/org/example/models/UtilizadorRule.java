@@ -1,7 +1,7 @@
-package com.example.models;
+package org.example.models;
 
 public enum UtilizadorRule {
-    ADMIN("admin"),
+    ADMIN("administrador"),
     FUNCIONARIO("funcionario"),
     CLIENTE("cliente");
 

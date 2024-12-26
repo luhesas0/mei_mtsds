@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserDTO {
+public class UtilizadorDTO {
     private String id; //ID do Utilizador
     private String nome; //Nome do Utilizador
     private List<String>roles; //Lista de funções (role) do utilizador

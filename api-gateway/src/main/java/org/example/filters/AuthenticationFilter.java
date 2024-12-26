@@ -1,6 +1,5 @@
-package org.example.filter;
+package org.example.filters;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -11,9 +10,10 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.example.filters.RouteValidator;
 
 @Component
-public class AuthenticationFilter extends AbstractGatewayFilterFactory <AbstractGatewayFilterFactory.Config> {
+public class AuthenticationFilter extends AbstractGatewayFilterFactory <AuthenticationFilter.Config> {
 
     @Autowired
     private RouteValidator routeValidator;
@@ -31,7 +31,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory <Abstract
             ServerHttpRequest request = exchange.getRequest();
 
             //Verificar se a rota é aberta
-            if(!routeValidator.isSecured.test(request)){
+            if(!routeValidator.isSecured(request)){
                 return chain.filter(exchange); //Permitir acesso a rotas abertas
             }
 

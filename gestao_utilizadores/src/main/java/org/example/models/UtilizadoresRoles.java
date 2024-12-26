@@ -1,4 +1,4 @@
-package com.example.models;
+package org.example.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "utilizadores_roles")
+@Table(name = "utilizadoresRoles")
 public class UtilizadoresRoles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_utilizadoresroles", unique = true, nullable = false)
-    private String idUtilizadoresroles; //Identificador único
+    @Column(name = "id_utilizadoresRoles", unique = true, nullable = false)
+    private String id; //Identificador único
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_utilizador", nullable = false)
