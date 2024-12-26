@@ -13,7 +13,7 @@
     <artifactId>eureka-server</artifactId>
     <packaging>jar</packaging>
 
-    <name>Eureka Server</name>
+    <name>eureka-server</name>
     <url>http://maven.apache.org</url>
     <description>Módulo Eureka Server para o projeto FoodStream</description>
 
