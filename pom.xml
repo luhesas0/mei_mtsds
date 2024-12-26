@@ -21,7 +21,8 @@
 		<module>repositorio_entregas</module>
 		<module>verifica_stock</module>
 		<module>gestao_utilizadores</module>
-	</modules>
+        <module>repositorio_entregas</module>
+    </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

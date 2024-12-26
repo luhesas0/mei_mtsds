@@ -13,8 +13,12 @@
         <module name="api-gateway" />
         <module name="verifica_stock" />
         <module name="eureka-server" />
-        <module name="repositorio_entregas" />
+        <module name="repo_entregas" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="gestao_funcionarios" target="17" />
+      <module name="repositorio_entregas" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
