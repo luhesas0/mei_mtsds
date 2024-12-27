@@ -15,7 +15,7 @@ public class GatewayConfig {
                 .route("utilizadores-route",r->r.path("/utilizadores/").uri("http://localhost:8071"))
                 .route("menu-route",r->r.path("/menu/**").uri("http://localhost:8072"))
                 .route("stock-route",r->r.path("/stock/**").uri("http://localhost:8073"))
-                .route("entregas-route",r->r.path("/entregas/**").uri("http://localhost:8074"))
+                .route("repositorio-route",r->r.path("/repositorio/**").uri("http://localhost:8074"))
                 .route("rotas-route",r->r.path("/rotas/**").uri("http://localhost:8075"))
                 .build();
     }

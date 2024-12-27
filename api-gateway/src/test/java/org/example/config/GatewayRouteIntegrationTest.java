@@ -1,19 +1,31 @@
 package org.example.config;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureWebTestClient
+public class GatewayRouteIntegrationTest {
 
-public class GatewayConfigTest {
+    @Autowired
+    private WebTestClient webTestClient;
 
     @Test
-    void testRouteLocatorCreation(){
-        GatewayConfig gatewayConfig = new GatewayConfig();
-        RouteLocatorBuilder builder = new RouteLocatorBuilder(null);
-        RouteLocator routeLocator = gatewayConfig.customRouteLocator(builder);
+    void testUtilizadoresRoute(){
+        webTestClient.get()
+                .uri("utilizadores")
+                .exchange()
+                .expectStatus().isOk(); //Valida que a rota está configurada corretamente
+    }
 
-        assertNotNull(routeLocator, "O RouteLocator não deve ser nulo.");
+    @Test
+    void testRotasNaoExistentes(){
+        webTestClient.get()
+                .uri("/rota-nao-existente")
+                .exchange()
+                .expectStatus().isNotFound(); //Valida que rotas não configuradas retornam 404
     }
 }

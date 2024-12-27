@@ -1,1 +1,9 @@
+org\example\config\GatewayConfig.class
+org\example\dto\PermissaoDTO.class
+org\example\filters\AuthenticationFilter.class
+org\example\filters\RouteValidator.class
+org\example\filters\AuthenticationFilter$Config.class
+org\example\config\RestTemplateConfig.class
 org\example\ApiGatewayApplication.class
+org\example\dto\ErrorResponseDTO.class
+org\example\dto\UtilizadorDTO.class

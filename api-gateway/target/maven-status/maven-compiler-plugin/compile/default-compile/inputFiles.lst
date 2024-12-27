@@ -1,1 +1,8 @@
 C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\org\example\ApiGatewayApplication.java
+C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\org\example\config\GatewayConfig.java
+C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\org\example\config\RestTemplateConfig.java
+C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\org\example\dto\ErrorResponseDTO.java
+C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\org\example\dto\PermissaoDTO.java
+C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\org\example\dto\UtilizadorDTO.java
+C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\org\example\filters\AuthenticationFilter.java
+C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\org\example\filters\RouteValidator.java

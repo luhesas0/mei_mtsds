@@ -8,6 +8,6 @@ public class ApiGatewayApplicationTest {
 
     @Test
     void contextLoads(){
-        //Verifica se o contexto do Spring é carregado corretamente
+        // Testa se o contexto do Spring Boot carrega sem erros.
     }
 }
