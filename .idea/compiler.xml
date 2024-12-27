@@ -7,9 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="calculo_rotas" />
         <module name="criacao_menu" />
         <module name="gestao_utilizadores" />
+        <module name="calculo_rota" />
         <module name="api-gateway" />
         <module name="verifica_stock" />
         <module name="eureka-server" />
@@ -17,6 +17,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="calculo_rotas" target="17" />
       <module name="gestao_funcionarios" target="17" />
       <module name="repositorio_entregas" target="17" />
     </bytecodeTargetLevel>

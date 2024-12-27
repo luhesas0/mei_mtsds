@@ -7,10 +7,11 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>calculo_rotas</artifactId>
+    <groupId>org.estg</groupId>
+    <artifactId>calculo_rota</artifactId>
     <packaging>jar</packaging>
 
-    <name>calculo_rotas</name>
+    <name>calculo_rota</name>
     <url>http://maven.apache.org</url>
 
     <properties>

@@ -18,10 +18,13 @@ public class OrdemTrabalho implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ordemTrabalho", unique = true, nullable = false)
-    private Integer order_id;
+    private Integer orderId;
+
+    @Column(name = "id_funcionario", nullable = false)
+    private Integer funcionarioId;
 
     @Column(name = "id_menu", nullable = false)
-    private Integer menu_id;
+    private Integer menuId;
 
     @Column(name = "quantidade", nullable = false)
     private Integer quantidade;

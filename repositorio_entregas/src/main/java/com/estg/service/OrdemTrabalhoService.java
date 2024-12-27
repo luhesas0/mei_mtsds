@@ -35,6 +35,20 @@ public class OrdemTrabalhoService {
                 .collect(Collectors.toList());
     }
 
+    public List<OrdemTrabalhoDTO> getOTsByStatus(OrderStatus status) {
+        logger.info("Listing all OTs by status: {}", status);
+        return repository.findByStatus(status).stream()
+                .map(ot -> modelMapper.map(ot, OrdemTrabalhoDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<OrdemTrabalhoDTO> getOTsByFuncionario(Integer funcionario_id) {
+        logger.info("Listing all OTs by funcionario: {}", funcionario_id);
+        return repository.findByFuncionarioId(funcionario_id).stream()
+                .map(ot -> modelMapper.map(ot, OrdemTrabalhoDTO.class))
+                .collect(Collectors.toList());
+    }
+
     public OrdemTrabalhoDTO getOrdemTrabalhoById(Integer id) {
         logger.info("Finding order with ID: {}", id);
         return repository.findById(id)
@@ -43,7 +57,7 @@ public class OrdemTrabalhoService {
     }
 
     public OrdemTrabalhoDTO addOrdemTrabalho(OrdemTrabalhoDTO ordemTrabalhoDTO) {
-        logger.info("Adding new OT: {}", ordemTrabalhoDTO.getOrder_id());
+        logger.info("Adding new OT: {}", ordemTrabalhoDTO.getOrderId());
         ordemTrabalhoDTO.setStatus(OrderStatus.PENDING);
         OrdemTrabalho ordemTrabalho = modelMapper.map(ordemTrabalhoDTO, OrdemTrabalho.class);
         OrdemTrabalho savedOrdemTrabalho = repository.save(ordemTrabalho);
@@ -53,7 +67,7 @@ public class OrdemTrabalhoService {
     public OrdemTrabalhoDTO updateOrdemTrabalho(Integer id, OrdemTrabalhoDTO ordemTrabalhoDTO) {
         logger.info("Updating order with ID: {}", id);
         OrdemTrabalho ordemTrabalho = modelMapper.map(ordemTrabalhoDTO, OrdemTrabalho.class);
-        ordemTrabalho.setOrder_id(id);
+        ordemTrabalho.setOrderId(id);
         OrdemTrabalho savedOrdemTrabalho = repository.save(ordemTrabalho);
         return modelMapper.map(savedOrdemTrabalho, OrdemTrabalhoDTO.class);
     }

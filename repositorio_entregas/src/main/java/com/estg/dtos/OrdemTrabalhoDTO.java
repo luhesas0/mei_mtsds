@@ -12,8 +12,9 @@ import lombok.ToString;
 @ToString
 
 public class OrdemTrabalhoDTO {
-    private Integer order_id;
-    private Integer menu_id;
+    private Integer orderId;
+    private Integer funcionarioId;
+    private Integer menuId;
     private Integer quantidade;
     private OrderStatus status;
     private String dataCriacao;
