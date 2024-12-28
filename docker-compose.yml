@@ -1,13 +1,46 @@
+
+#services:
+#  eureka-server:
+#    build:
+#      context: ./eureka-server
+#      dockerfile: Dockerfile
+#    container_name: eureka-server
+#    ports:
+#      - "8761:8761"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=default
+#    restart: always
+#
 version: '3.8'
 
 services:
-  eureka-server:
-    build:
-      context: ./eureka-server
-      dockerfile: Dockerfile
-    container_name: eureka-server
-    ports:
-      - "8761:8761"
+  postgres:
+    image: postgres:16.0
+    container_name: postgres_server
     environment:
-      - SPRING_PROFILES_ACTIVE=default
-    restart: always
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: db_repo_entregas
+    ports:
+      - 5432:5432
+    volumes:
+      - ./Docker/postgresSQL:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:7.8
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 8210396@estg.ipp.pt
+      PGADMIN_DEFAULT_PASSWORD: pgadmin1234
+    ports:
+        - "9999:80"
+
+  RABBITMQ:
+    container_name: RABBITMQ
+    image: "rabbitmq:3.12.9-management-alpine"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: 123
+    ports:
+      - "5672:5672"   # AMQP protocol port
+      - "15672:15672" # management interface port

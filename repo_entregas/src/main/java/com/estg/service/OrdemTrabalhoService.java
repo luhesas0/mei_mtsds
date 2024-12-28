@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,6 +57,7 @@ public class OrdemTrabalhoService {
                 .orElseThrow(() -> new OrdemTrabalhoNotFound(id));
     }
 
+    @Transactional
     public OrdemTrabalhoDTO addOrdemTrabalho(OrdemTrabalhoDTO ordemTrabalhoDTO) {
         logger.info("Adding new OT: {}", ordemTrabalhoDTO.getOrderId());
         ordemTrabalhoDTO.setStatus(OrderStatus.PENDING);
