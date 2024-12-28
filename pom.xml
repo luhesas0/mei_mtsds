@@ -18,10 +18,10 @@
 		<module>api-gateway</module>
 		<module>calculo_rota</module>
 		<module>criacao_menu</module>
-		<module>repositorio_entregas</module>
+		<module>repo_entregas</module>
 		<module>verifica_stock</module>
 		<module>gestao_utilizadores</module>
-        <module>repositorio_entregas</module>
+        <module>repo_entregas</module>
         <module>calculo_rota</module>
     </modules>
 
