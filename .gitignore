@@ -6,3 +6,4 @@
 
 # Maven Build Artifacts
 target/
+.idea
