@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,18 +20,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name= "utilizador")
+@EntityListeners(AuditingEntityListener.class)
+@Table(name= "utilizadores")
 public class Utilizador implements UserDetails {
 
    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_utilizador", unique = true, nullable = false)
-    private String id; //Identificador único
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id; //Identificador único
 
-   @Column(name = "nome", nullable = false,length = 255)
+   @Column(name = "nome", nullable = false,length = 100)
     private String nome; //Nome do utilizador
 
-   @Column(name = "email", nullable = false, unique = true,length = 255)
+   @Column(name = "email", nullable = false, unique = true,length = 150)
     private String email; //Email unico do utilizador
 
     @JsonIgnore
@@ -36,13 +40,15 @@ public class Utilizador implements UserDetails {
     private String password; //Senha criptografada
 
    @Column(name = "status", nullable = false, length = 50)
-    private String status; //Estado do utilizador (Ativo, Inativo)
+    private Boolean status; //Estado do utilizador (Ativo/Inativo)
 
-    @Column(name = "data_criacao",nullable = false,updatable = false)
-    private LocalDateTime data_criacao; //Data de criação (auditoria)
+    @CreatedDate
+    @Column(name = "created_date",nullable = false,updatable = false)
+    private LocalDateTime createdDate; //Data de criação (auditoria)
 
-    @Column(name = "data_atualizacao")
-    private LocalDateTime data_atualizacao; //Data de última atualização (auditoria)
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    private LocalDateTime lastModifiedDate; //Data de última modificação
 
     //Relacionamento com roles
     @OneToMany(mappedBy = "utilizador", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -89,6 +95,6 @@ public class Utilizador implements UserDetails {
 
     @Override
     public boolean isEnabled(){
-        return "Ativo".equalsIgnoreCase(status);
+        return status;
     }
 }
