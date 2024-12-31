@@ -3,7 +3,7 @@ package org.example.service;
 import org.example.dto.RegistoLoginDto;
 import org.example.models.RegistoLogins;
 import org.example.models.Utilizador;
-import org.example.repository.RegistoLoginsRepository;
+import org.example.repository.RegistoLoginRepository;
 import org.example.repository.UtilizadorRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class RegistoLoginsService {
 
     @Autowired
-    private RegistoLoginsRepository registoLoginsRepository;
+    private RegistoLoginRepository registoLoginRepository;
 
     @Autowired
     private UtilizadorRepository utilizadorRepository;
@@ -28,7 +28,7 @@ public class RegistoLoginsService {
      * @param userId ID do utilizador.
      * @param statusLogin Status do login (sucesso ou falha).
      */
-    public void regitarTentativaLogin(Long userId, Boolean statusLogin){
+    public void registarTentativaLogin(Long userId, Boolean statusLogin){
         Utilizador utilizador = utilizadorRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Utilizador não encontrado."));
 
@@ -36,7 +36,7 @@ public class RegistoLoginsService {
         registo.setUtilizador(utilizador);
         registo.setStatusLogin(statusLogin);
         registo.setDataLogin(LocalDateTime.now());
-        registoLoginsRepository.save(registo);
+        registoLoginRepository.save(registo);
     }
 
     /**
