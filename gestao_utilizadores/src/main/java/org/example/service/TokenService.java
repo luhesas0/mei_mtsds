@@ -16,12 +16,25 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
+    //Adicionando para permitir configuração do segredo de testes
+
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
     /**
      * Gera um token JWT para o utilizador.
      * @param utilizador Utilizador autenticado.
      * @return Token JWT.
      */
     public String generateToken(Utilizador utilizador){
+        if (secret == null || secret.isEmpty()){
+            throw new IllegalArgumentException("O segredo do token não pode ser nulo ou vazio.");
+        }
+        if (utilizador == null || utilizador.getEmail() == null || utilizador.getEmail().isEmpty()){
+            throw new RuntimeException("Erro ao gerar token JWT.");
+        }
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
@@ -29,7 +42,7 @@ public class TokenService {
                     .withSubject(utilizador.getEmail())
                     .withClaim("id",utilizador.getId())
                     .withIssuedAt(new Date())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 3600000)) //1 hora
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 7200000)) //2 horas
                     .sign(algorithm);
         } catch (JWTCreationException e){
             throw new RuntimeException("Erro ao gerar token JWT.", e);
@@ -42,6 +55,9 @@ public class TokenService {
      * @return E-mail do utilizador, se o token for válido.
      */
     public String validateToken(String token){
+        if (secret == null || secret.isEmpty()){
+            throw new IllegalArgumentException("O segredo do token não pode ser nulo ou vazio.");
+        }
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)

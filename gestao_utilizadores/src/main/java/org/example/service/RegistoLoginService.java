@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class RegistoLoginsService {
+public class RegistoLoginService {
 
     @Autowired
     private RegistoLoginRepository registoLoginRepository;

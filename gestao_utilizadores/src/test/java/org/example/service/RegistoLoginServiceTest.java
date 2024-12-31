@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class RegistoLoginsServiceTest {
+public class RegistoLoginServiceTest {
 
     @InjectMocks
-    private RegistoLoginsService registoLoginsService;
+    private RegistoLoginService registoLoginService;
 
     @Mock
     private RegistoLoginRepository registoLoginRepository;
@@ -54,7 +54,7 @@ public class RegistoLoginsServiceTest {
         when(utilizadorRepository.findById(userId)).thenReturn(java.util.Optional.of(utilizador));
 
         // Execução do método a ser testado
-        registoLoginsService.registarTentativaLogin(userId, statusLogin);
+        registoLoginService.registarTentativaLogin(userId, statusLogin);
 
         // Verificação se o método save foi chamado com a entidade correta
         verify(registoLoginRepository, times(1)).save(any(RegistoLogins.class));
@@ -71,7 +71,7 @@ public class RegistoLoginsServiceTest {
 
         // Execução e verificação da exceção
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                registoLoginsService.registarTentativaLogin(userId, statusLogin)
+                registoLoginService.registarTentativaLogin(userId, statusLogin)
         );
 
         assertEquals("Utilizador não encontrado.",exception.getMessage());
@@ -97,7 +97,7 @@ public class RegistoLoginsServiceTest {
         when(modelMapper.map(registoLogins, RegistoLoginDto.class)).thenReturn(expectedDto);
 
         // Execução do método a ser testado
-        RegistoLoginDto result = registoLoginsService.converterParaDto(registoLogins);
+        RegistoLoginDto result = registoLoginService.converterParaDto(registoLogins);
 
         // Verificações
         assertNotNull(result);
