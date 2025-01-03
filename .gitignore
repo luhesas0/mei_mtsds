@@ -7,3 +7,6 @@
 # Maven Build Artifacts
 target/
 .idea
+
+# Docs directory (ignorar a pasta Docs e seus conteúdos)
+Docs/

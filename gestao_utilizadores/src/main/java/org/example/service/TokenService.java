@@ -18,7 +18,6 @@ public class TokenService {
 
     //Adicionando para permitir configuração do segredo de testes
 
-
     public void setSecret(String secret) {
         this.secret = secret;
     }
@@ -28,23 +27,20 @@ public class TokenService {
      * @param utilizador Utilizador autenticado.
      * @return Token JWT.
      */
-    public String generateToken(Utilizador utilizador){
-        if (secret == null || secret.isEmpty()){
+    public String generateToken(Utilizador utilizador) {
+        if (secret == null || secret.isEmpty()) {
             throw new IllegalArgumentException("O segredo do token não pode ser nulo ou vazio.");
-        }
-        if (utilizador == null || utilizador.getEmail() == null || utilizador.getEmail().isEmpty()){
-            throw new RuntimeException("Erro ao gerar token JWT.");
         }
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("auth-service")
                     .withSubject(utilizador.getEmail())
-                    .withClaim("id",utilizador.getId())
+                    .withClaim("id", utilizador.getId())
                     .withIssuedAt(new Date())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 7200000)) //2 horas
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 7200000))
                     .sign(algorithm);
-        } catch (JWTCreationException e){
+        } catch (JWTCreationException e) {
             throw new RuntimeException("Erro ao gerar token JWT.", e);
         }
     }
@@ -55,9 +51,6 @@ public class TokenService {
      * @return E-mail do utilizador, se o token for válido.
      */
     public String validateToken(String token){
-        if (secret == null || secret.isEmpty()){
-            throw new IllegalArgumentException("O segredo do token não pode ser nulo ou vazio.");
-        }
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
@@ -68,5 +61,12 @@ public class TokenService {
         } catch (JWTVerificationException e){
             throw new RuntimeException("Token inválido.", e);
         }
+    }
+
+    public String refreshToken(String token){
+        String userEmail = validateToken(token);
+        Utilizador fakeUser = new Utilizador();
+        fakeUser.setEmail(userEmail);
+        return generateToken(fakeUser);
     }
 }

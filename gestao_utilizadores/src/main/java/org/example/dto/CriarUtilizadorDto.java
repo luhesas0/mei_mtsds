@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CriarUtilizadorDto {
+    private Long id;
 
     @NotNull(message = "Nome é obrigatório")
     private String nome;

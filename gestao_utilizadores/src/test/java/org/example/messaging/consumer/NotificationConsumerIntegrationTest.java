@@ -1,16 +1,19 @@
 package org.example.messaging.consumer;
 
+import org.example.config.AppConfig;
 import org.example.config.RabbitMQConfig;
 import org.example.dto.NotificacaoDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class NotificationConsumerTest {
+@Import(AppConfig.class)
+public class NotificationConsumerIntegrationTest {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -24,8 +27,8 @@ public class NotificationConsumerTest {
         //Enviar mensagem para a fila
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTING_KEY, notificacaoDto);
 
-        //Verificar que a mensagem foi processada
-        // Aqui pode verificar logs, base de dados ou outros efeitos colaterais do processamento
+        //Simulação: Aqui você pode verificar se o consumidor recebeu e processou a mensagem.
+        // Uma solução real exigiria uma maneira de capturar a mensagem processada ou verificar efeitos colaterais.
         assertTrue(true, "Mensagem processada com sucesso.");
     }
 }
