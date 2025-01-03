@@ -1,6 +1,7 @@
 package com.estg.controllers;
 import com.estg.dtos.OrdemTrabalhoDTO;
 import com.estg.enums.OrderStatus;
+import com.estg.messaging.OTPublisher;
 import com.estg.models.OrdemTrabalho;
 import com.estg.service.OrdemTrabalhoService;
 import org.slf4j.Logger;
@@ -12,13 +13,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/repositorio_entregas/ordens_trabalho")
+@RequestMapping("/repositorio")
 public class OrdemTrabalhoController {
 
     private static final Logger logger = LoggerFactory.getLogger(OrdemTrabalhoController.class);
 
     @Autowired
     private OrdemTrabalhoService OtService;
+
+    @Autowired
+    private OTPublisher publisher;
 
     @GetMapping("/{id}")
     public ResponseEntity<OrdemTrabalhoDTO> getOT(@PathVariable Integer id) {
@@ -52,6 +56,8 @@ public class OrdemTrabalhoController {
     public ResponseEntity<OrdemTrabalhoDTO> createOT(@RequestBody OrdemTrabalhoDTO ordemEntregaDTO) {
         logger.info("Received new OT id: {}", ordemEntregaDTO.getOrderId());
         OrdemTrabalhoDTO novaOrdem = OtService.addOrdemTrabalho(ordemEntregaDTO);
+
+        publisher.sendOT(novaOrdem);
         logger.info("OT created with sucess: {}", novaOrdem.getOrderId());
         return ResponseEntity.ok(novaOrdem);
     }
@@ -76,4 +82,7 @@ public class OrdemTrabalhoController {
         OtService.deleteOrdemTrabalho(id);
         return ResponseEntity.noContent().build();
     }
+
+    // get information from other services
+
 }

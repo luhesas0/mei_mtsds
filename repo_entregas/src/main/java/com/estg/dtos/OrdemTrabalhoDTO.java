@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,8 +19,8 @@ public class OrdemTrabalhoDTO {
     private Integer menuId;
     private Integer quantidade;
     private OrderStatus status;
-    private String dataCriacao;
-    private String dataEntrega;
+    private Date dataCriacao;
+    private Date dataEntrega;
     private String enderecoEntrega;
     private String contacto;
     private String nomeCliente;

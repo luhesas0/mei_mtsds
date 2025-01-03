@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,5 +88,14 @@ public class OrdemTrabalhoService {
     public void deleteOrdemTrabalho(Integer id) {
         logger.info("Removendo ordem de entrega com ID: {}", id);
         repository.deleteById(id);
+    }
+
+    public OrdemTrabalhoDTO updateDeliveryDate(Integer id, OrdemTrabalhoDTO ordemTrabalhoDTO) {
+        logger.info("Updating delivery date for order with ID: {}", id);
+        OrdemTrabalho ordemTrabalho = repository.findById(id)
+                .orElseThrow(() -> new OrdemTrabalhoNotFound(id));
+        ordemTrabalho.setDataEntrega(ordemTrabalhoDTO.getDataEntrega());
+        OrdemTrabalho savedOrdemTrabalho = repository.save(ordemTrabalho);
+        return modelMapper.map(savedOrdemTrabalho, OrdemTrabalhoDTO.class);
     }
 }

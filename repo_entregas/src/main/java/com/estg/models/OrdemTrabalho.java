@@ -2,9 +2,7 @@ package com.estg.models;
 
 import com.estg.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +11,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter @Setter
+@EqualsAndHashCode
 @Table(name = "ordensTrabalho")
 public class OrdemTrabalho implements Serializable {
     @Id
@@ -21,7 +21,7 @@ public class OrdemTrabalho implements Serializable {
     private Integer orderId;
 
     // Foreign key reference to Funcionario, managed by another microservice
-    @Column(name = "id_funcionario", nullable = false)
+    @Column(name = "id_funcionario", nullable = true)
     private Integer funcionarioId;
 
     // Foreign key reference to Menu, managed by another microservice
@@ -40,13 +40,13 @@ public class OrdemTrabalho implements Serializable {
     private Date dataCriacao;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "data_entrega", nullable = false)
+    @Column(name = "data_entrega", nullable = true)
     private Date dataEntrega;
 
     @Column(name = "observacoes")
     private String observacoes;
 
-    @Column(name = "endereco_entrega", nullable = false)
+    @Column(name = "rota_entrega", nullable = true)
     private String enderecoEntrega;
 
     @Column(name = "contacto", nullable = false)
