@@ -1,12 +1,15 @@
 package org.example.service;
 
+import org.example.dto.CriarUtilizadorDto;
 import org.example.dto.LoginDto;
 import org.example.dto.LoginResponseDto;
+import org.example.dto.UtilizadorDto;
 import org.example.models.Utilizador;
 import org.example.repository.UtilizadorRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,10 +22,13 @@ public class AuthService {
     private UtilizadorRepository utilizadorRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     /**
      * Realiza autenticação de utilizadores.
@@ -50,5 +56,18 @@ public class AuthService {
         LoginResponseDto response = new LoginResponseDto();
         response.setToken(token);
         return response;
+    }
+
+    public UtilizadorDto registerUser(CriarUtilizadorDto criarUtilizadorDto){
+        if (utilizadorRepository.existsByEmail(criarUtilizadorDto.getEmail())){
+            throw new IllegalArgumentException("Email já está em uso.");
+        }
+
+        Utilizador utilizador = modelMapper.map(criarUtilizadorDto,Utilizador.class);
+        utilizador.setPassword(passwordEncoder.encode(criarUtilizadorDto.getPassword()));
+        utilizador.setStatus(true);
+
+        Utilizador savedUser = utilizadorRepository.save(utilizador);
+        return modelMapper.map(savedUser, UtilizadorDto.class);
     }
 }
