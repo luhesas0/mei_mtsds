@@ -1,16 +1,24 @@
 package com.estg.service;
 
 import com.estg.data.OrdemTrabalhoRepository;
+import com.estg.dtos.FuncionarioDTO;
 import com.estg.dtos.OrdemTrabalhoDTO;
+import com.estg.dtos.OrderDTO;
 import com.estg.enums.OrderStatus;
-import com.estg.exceptions.OrdemTrabalhoNotFound;
+import com.estg.exceptions.*;
 import com.estg.models.OrdemTrabalho;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -22,6 +30,12 @@ public class OrdemTrabalhoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrdemTrabalhoService.class);
 
+    @Value("${endpoints.gestao_utilizadores.url}")
+    private String gestaoUtilizadoresUrl;
+
+    @Value("${endpoints.gestao_menus.url}")
+    private String gestaoMenusUrl;
+
     @Autowired
     private OrdemTrabalhoRepository repository;
 
@@ -31,71 +45,132 @@ public class OrdemTrabalhoService {
         this.modelMapper = new ModelMapper();
     }
 
-    public List<OrdemTrabalhoDTO> getAllOTs() {
-        logger.info("Listing all OTs");
-        return repository.findAll().stream()
-                .map(ot -> modelMapper.map(ot, OrdemTrabalhoDTO.class))
-                .collect(Collectors.toList());
+    public List<OrdemTrabalho> getAll() {
+        logger.info("(LS) Listing all OTs");
+        return repository.findAll();
     }
 
-    public List<OrdemTrabalhoDTO> getOTsByStatus(OrderStatus status) {
-        logger.info("Listing all OTs by status: {}", status);
-        return repository.findByStatus(status).stream()
-                .map(ot -> modelMapper.map(ot, OrdemTrabalhoDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    public List<OrdemTrabalhoDTO> getOTsByFuncionario(Integer funcionario_id) {
-        logger.info("Listing all OTs by funcionario: {}", funcionario_id);
-        return repository.findByFuncionarioId(funcionario_id).stream()
-                .map(ot -> modelMapper.map(ot, OrdemTrabalhoDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    public OrdemTrabalhoDTO getOrdemTrabalhoById(Integer id) {
-        logger.info("Finding order with ID: {}", id);
-        return repository.findById(id)
-                .map(ot -> modelMapper.map(ot, OrdemTrabalhoDTO.class))
+    public OrdemTrabalho get(Integer id) throws OrdemTrabalhoNotFound {
+        logger.info("(LS) Finding order with ID: {}", id);
+        return repository
+                .findById(id)
                 .orElseThrow(() -> new OrdemTrabalhoNotFound(id));
     }
 
-    @Transactional
-    public OrdemTrabalhoDTO addOrdemTrabalho(OrdemTrabalhoDTO ordemTrabalhoDTO) {
-        logger.info("Adding new OT: {}", ordemTrabalhoDTO.getOrderId());
-        ordemTrabalhoDTO.setStatus(OrderStatus.PENDING);
-        OrdemTrabalho ordemTrabalho = modelMapper.map(ordemTrabalhoDTO, OrdemTrabalho.class);
-        OrdemTrabalho savedOrdemTrabalho = repository.save(ordemTrabalho);
-        return modelMapper.map(savedOrdemTrabalho, OrdemTrabalhoDTO.class);
+    public OrdemTrabalho update(OrdemTrabalho ordemTrabalho) throws OrdemTrabalhoNotFound {
+        if(repository.existsById(ordemTrabalho.getOrderId())) {
+            logger.info("(LS) Updating order with ID: {}", ordemTrabalho.getOrderId());
+            return repository.save(ordemTrabalho);
+        } else {
+            logger.info("(LS) Order with ID: {} not found", ordemTrabalho.getOrderId());
+            throw new OrdemTrabalhoNotFound(ordemTrabalho.getOrderId());
+        }
     }
 
-    public OrdemTrabalhoDTO updateOrdemTrabalho(Integer id, OrdemTrabalhoDTO ordemTrabalhoDTO) {
-        logger.info("Updating order with ID: {}", id);
-        OrdemTrabalho ordemTrabalho = modelMapper.map(ordemTrabalhoDTO, OrdemTrabalho.class);
-        ordemTrabalho.setOrderId(id);
-        OrdemTrabalho savedOrdemTrabalho = repository.save(ordemTrabalho);
-        return modelMapper.map(savedOrdemTrabalho, OrdemTrabalhoDTO.class);
+    public OrdemTrabalho add(OrdemTrabalho ordemTrabalho) {
+        if (repository.existsById(ordemTrabalho.getOrderId())) {
+            logger.info("(LS) Order with ID: {} already exists", ordemTrabalho.getOrderId());
+            return null;
+        } else {
+            logger.info("(LS) Adding new order with ID: {}", ordemTrabalho.getOrderId());
+            return repository.save(ordemTrabalho);
+        }
     }
 
-    public OrdemTrabalhoDTO updateOTStatus(Integer id, OrderStatus status) {
-        logger.info("Updating order status with ID: {}", id);
-        OrdemTrabalho ordemTrabalho = repository.findById(id)
-                .orElseThrow(() -> new OrdemTrabalhoNotFound(id));
-        ordemTrabalho.setStatus(status);
-        OrdemTrabalho savedOrdemTrabalho = repository.save(ordemTrabalho);
-        return modelMapper.map(savedOrdemTrabalho, OrdemTrabalhoDTO.class);
+    public List<OrdemTrabalho> getStatus(OrderStatus status) throws OrdemTrabalhoNotFound {
+        if(repository.findByStatus(status).isEmpty()) {
+            logger.info("(LS) No orders found with status: {}", status);
+            return null;
+        } else {
+            logger.info("(LS) Listing all orders with status: {}", status);
+            return repository.findByStatus(status);
+        }
     }
 
-    public void deleteOrdemTrabalho(Integer id) {
-        logger.info("Removendo ordem de entrega com ID: {}", id);
-        repository.deleteById(id);
+    public List<OrdemTrabalho> getPorFuncionario(Integer funcionario_id) {
+        if(repository.findByFuncionarioId(funcionario_id).isEmpty()) {
+            logger.info("No orders found with funcionario ID: {}", funcionario_id);
+            return null;
+        } else {
+            logger.info("Listing all orders with funcionario ID: {}", funcionario_id);
+            return repository.findByFuncionarioId(funcionario_id);
+        }
     }
 
-    public OrdemTrabalhoDTO updateDeliveryDate(Integer id, OrdemTrabalhoDTO ordemTrabalhoDTO) {
-        logger.info("Updating delivery date for order with ID: {}", id);
-        OrdemTrabalho ordemTrabalho = repository.findById(id)
-                .orElseThrow(() -> new OrdemTrabalhoNotFound(id));
-        ordemTrabalho.setDataEntrega(ordemTrabalhoDTO.getDataEntrega());
-        OrdemTrabalho savedOrdemTrabalho = repository.save(ordemTrabalho);
-        return modelMapper.map(savedOrdemTrabalho, OrdemTrabalhoDTO.class);
+    private FuncionarioDTO getFuncionario(Integer funcionario_id)
+            throws UtilizadorServiceUnexpectedException, UtilizadoresUnexistingFuncionarioException, MissingDataException {
+
+        FuncionarioDTO funcionarioDTO;
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            //request
+            ResponseEntity<FuncionarioDTO> response = restTemplate.getForEntity(
+                    gestaoUtilizadoresUrl + "/{funcionarioId}",
+                    FuncionarioDTO.class,
+                    funcionario_id
+            );
+            return response.getBody();
+
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            if(e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                throw new UtilizadorServiceUnexpectedException();
+            } else if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new UtilizadoresUnexistingFuncionarioException();
+            } else {
+                throw new MissingDataException();
+            }
+        }
+    }
+
+    public void assignOT(Integer OrdemTrabalhoId, Integer funcionarioId)
+            throws OrdemTrabalhoNotFound, UtilizadorServiceUnexpectedException, UtilizadoresUnexistingFuncionarioException, MissingDataException {
+
+        OrdemTrabalho ordemTrabalho = get(OrdemTrabalhoId);
+        FuncionarioDTO funcionarioDTO = getFuncionario(funcionarioId);
+
+    }
+
+    public void getOrder(String orderId)
+            throws MissingDataException, MenuServiceUnexpectedException, CriacaoMenuUnexistingMenuException {
+        String url = gestaoMenusUrl + "/{orderId}" + orderId;
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            //request
+            ResponseEntity<OrderDTO> response = restTemplate.getForEntity(
+                    gestaoMenusUrl + "/{orderId}",
+                    OrderDTO.class,
+                    orderId
+            );
+
+            OrderDTO orderDTO = response.getBody();
+            OrdemTrabalho ordemTrabalho = new OrdemTrabalho();
+            ordemTrabalho.setMenuId(orderDTO.getMenuId());
+            ordemTrabalho.setQuantidade(orderDTO.getQuantity());
+            ordemTrabalho.setStatus(OrderStatus.PENDING);
+            ordemTrabalho.setDataCriacao(new Date());
+            ordemTrabalho.setEnderecoEntrega(orderDTO.getDeliveryAddress());
+            ordemTrabalho.setContacto(orderDTO.getContact());
+            ordemTrabalho.setNomeCliente(orderDTO.getClientName());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            if(e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+                throw new MenuServiceUnexpectedException();
+            } else if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new CriacaoMenuUnexistingMenuException();
+            } else {
+                throw new MissingDataException();
+            }
+        }
+    }
+
+
+    public void delete(Integer id) throws OrdemTrabalhoNotFound {
+        if(repository.existsById(id)) {
+            logger.info("Deleting order with ID: {}", id);
+            repository.deleteById(id);
+        } else {
+            logger.info("Order with ID: {} not found", id);
+            throw new OrdemTrabalhoNotFound(id);
+        }
     }
 }

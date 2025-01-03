@@ -1,20 +1,14 @@
 package com.estg.dtos;
 
 import com.estg.enums.OrderStatus;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-
+@Getter
+@Setter
 public class OrdemTrabalhoDTO {
-    private Integer orderId;
+    private Integer id;
     private Integer funcionarioId;
     private Integer menuId;
     private Integer quantidade;
