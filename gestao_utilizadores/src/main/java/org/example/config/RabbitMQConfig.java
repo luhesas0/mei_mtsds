@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     //Constantes de fila, exchange e routing key
-    public static final String QUEUE = "nova_avaliacao_confirmation_requests";
-    public static final String EXCHANGE = "exchange_confirmation_requests";
-    public static final String ROUTING_KEY = "routing_Key_1";
+    public static final String EXCHANGE = "noticacao_exchange_requests";
+    public static final String ROUTING_KEY = "notification_key_1";
+    public static final String QUEUE = "notification_queue_request";
 
      @Bean
     public Queue queue(){
@@ -27,7 +27,7 @@ public class RabbitMQConfig {
      }
 
      @Bean
-     public Binding binding(Queue queue, TopicExchange exchange){
+    public Binding binding(Queue queue, TopicExchange exchange){
          return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
      }
 
@@ -37,9 +37,9 @@ public class RabbitMQConfig {
      }
 
      @Bean
-    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory){
-         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-         rabbitTemplate.setMessageConverter(messageConverter());
-         return rabbitTemplate;
+    public AmqpTemplate template(ConnectionFactory connectionFactory){
+         RabbitTemplate template = new RabbitTemplate(connectionFactory);
+         template.setMessageConverter(messageConverter());
+         return template;
      }
 }

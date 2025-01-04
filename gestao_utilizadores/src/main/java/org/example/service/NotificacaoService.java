@@ -34,10 +34,12 @@ public class NotificacaoService {
         Utilizador utilizador = utilizadorRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Utilizador não encontrado."));
 
+        //Criar notificação
         Notificacoes notificacao = new Notificacoes();
         notificacao.setUtilizador(utilizador);
         notificacao.setMensagem(mensagem);
         notificacao.setDataEnvio(LocalDateTime.now());
+
         notificacoesRepository.save(notificacao);
     }
 
