@@ -1,5 +1,6 @@
+version: '3.8'
 
-#services:
+services:
 #  eureka-server:
 #    build:
 #      context: ./eureka-server
@@ -10,10 +11,7 @@
 #    environment:
 #      - SPRING_PROFILES_ACTIVE=default
 #    restart: always
-#
-version: '3.8'
 
-services:
   postgres:
     image: postgres:16.0
     container_name: postgres_server
