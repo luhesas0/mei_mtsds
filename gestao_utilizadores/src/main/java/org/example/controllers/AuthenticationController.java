@@ -38,24 +38,24 @@ public class AuthController {
 
     /**
      * Login de utilizador e gerar token JWT.
-     * @param loginDto Dados de Login (email e password).
+     * @param loginRequestDTO Dados de Login (email e password).
      * @return Token JWT ou erro de autenticação.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid LoginDto loginDto){
-        logger.info("Pedido de Login para utilizador:{}", loginDto.getEmail());
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequestDTO){
+        logger.info("Pedido de Login para utilizador:{}", loginRequestDTO.getEmail());
         try {
-            var authToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+            var authToken = new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getPassword());
             var authResult = authenticationManager.authenticate(authToken);
 
             String token = tokenService.generateToken((Utilizador) authResult.getPrincipal());
 
-            LoginResponseDto response = new LoginResponseDto();
+            LoginResponseDTO response = new LoginResponseDTO();
             response.setToken(token);
 
             return ResponseEntity.ok(response);
         } catch (Exception e){
-            logger.error("Falha no Login do utilizador {}:{}",loginDto.getEmail(),e.getMessage());
+            logger.error("Falha no Login do utilizador {}:{}", loginRequestDTO.getEmail(),e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas.");
         }
     }
@@ -66,10 +66,10 @@ public class AuthController {
      * @return Dados do utilizador criado ou erro.
      */
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid CriarUtilizadorDto criarUtilizadorDto){
+    public ResponseEntity<?> register(@RequestBody @Valid CriarUtilizadorDTO criarUtilizadorDto){
         logger.info("Pedido de registo do utilizador:{}", criarUtilizadorDto.getEmail());
         try {
-            UtilizadorDto utilizador = authService.registerUser(criarUtilizadorDto);
+            UtilizadorDTO utilizador = authService.registerUser(criarUtilizadorDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(utilizador);
         } catch (IllegalArgumentException e){
             logger.error("Erro ao registar utilizador {}: {}", criarUtilizadorDto.getEmail(), e.getMessage());
@@ -104,7 +104,7 @@ public class AuthController {
         logger.info("Pedido de atualização de token.");
         try{
             String newToken = tokenService.refreshToken(token);
-            LoginResponseDto response = new LoginResponseDto();
+            LoginResponseDTO response = new LoginResponseDTO();
             response.setToken(newToken);
             return ResponseEntity.ok(response);
         } catch (Exception e){

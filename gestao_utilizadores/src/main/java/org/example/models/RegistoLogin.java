@@ -1,5 +1,6 @@
 package org.example.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,30 +13,31 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name= "notificacoes")
+@Table(name = "registo_logins")
 @EntityListeners(AuditingEntityListener.class)
-public class Notificacoes {
+public class RegistoLogins {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",unique = true,nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id; //Identificador único
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_utilizador", nullable = false)
+    @JsonIgnore
     private Utilizador utilizador; //FK para a tabela utilizadores
 
-    @Column(name = "mensagem", nullable = false)
-    private String mensagem; //Mensagem de notificação
+    @Column(name = "data_login", nullable = false)
+    private LocalDateTime dataLogin; //Data e hora do login
 
-    @Column(name = "data_envio", nullable = false)
-    private LocalDateTime dataEnvio; //Data de envio da notificação
+    @Column(name = "ip_address", nullable = true, length = 50)
+    private String ipAddress; //Endereço IP do utilizador no momento do login
 
     @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDate;  //Data de criação
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedDate; //Data de última modificação
 }
