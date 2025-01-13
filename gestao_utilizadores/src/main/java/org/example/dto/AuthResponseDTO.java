@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthTokenResponseDTO {
+public class LoginResponseDTO {
     private String token;  //Token JWT gerado
     private String tipoToken= "Bearer"; //Tipo padrão de token
 }

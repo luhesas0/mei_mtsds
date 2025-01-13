@@ -1,9 +1,10 @@
-package org.example.utils;
+package org.example.enums;
 
 /**
  * Enumeração para representar subtipos de funcionários no sistema.
  */
 public enum TipoAtor {
+    FUNCIONARIO("Funcionario"),
     FUNCIONARIO_ENTREGADOR("Funcionario Entregador"),
     FUNCIONARIO_STOCK("Funcionario de Stock"),
     FUNCIONARIO_MENU("Funcionário de Menu"),

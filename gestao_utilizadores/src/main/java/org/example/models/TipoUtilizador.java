@@ -1,4 +1,4 @@
-package org.example.models;
+package org.example.enums;
 
 /**
  * Enumeração que define os papéis dos utilizadores no sistema.

@@ -8,7 +8,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+/**
+ * Entidade que representa os papéis de utilizadores no sistema.
+ */
 @Data
 @NoArgsConstructor
 @Entity
@@ -24,11 +28,22 @@ public class Role {
     @Column(name = "nome", nullable = false, length = 50)
     private String nome; //Nome do papel (Administrador, Funcionário, Cliente)
 
+    @Column(name= "descricao",nullable = true,length = 255)
+    private String descricao; //Descrição opcional do papel
+
     @CreatedDate
     @Column(name = "created_date", nullable = false,updatable = false)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdDate; //Data de criação
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedDate; //Data da última modificação
+
+    @ManyToMany
+    @JoinTable(
+            name = "roles_permissoes",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permissao_id")
+    )
+    private List<Permissao> permissoes; //Lista de permissões associadas ao papel
 }
