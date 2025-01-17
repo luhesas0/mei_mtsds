@@ -1,16 +1,52 @@
-version: '3.8'
+networks:
+  mtsds-network:
+    driver: bridge
 
 services:
-#  eureka-server:
-#    build:
-#      context: ./eureka-server
-#      dockerfile: Dockerfile
-#    container_name: eureka-server
-#    ports:
-#      - "8761:8761"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=default
-#    restart: always
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    networks:
+      - mtsds-network
+    restart: always
+
+  api-gateway:
+      build:
+        context: ./api-gateway
+      container_name: api-gateway
+      depends_on:
+        - eureka-server
+      ports:
+        - "8080:8080"
+      environment:
+        - SPRING_PROFILES_ACTIVE=default
+        - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      networks:
+        - mtsds-network
+      restart: always
+
+  gestao_utilizadores:
+    build:
+      context: ./gestao_utilizadores
+    container_name: gestao_utilizadores
+    depends_on:
+      - eureka-server
+    ports:
+      - "8071:8071"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    networks:
+      - mtsds-network
+    restart: always
+
+
 
   postgres:
     image: postgres:16.0
@@ -23,6 +59,8 @@ services:
       - 5432:5432
     volumes:
       - ./Docker/postgresSQL:/var/lib/postgresql/data
+    networks:
+      - mtsds-network
 
   pgadmin:
     container_name: pgadmin
@@ -32,6 +70,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: pgadmin1234
     ports:
         - "9999:80"
+    networks:
+      - mtsds-network
 
   RABBITMQ:
     container_name: RABBITMQ
@@ -42,3 +82,6 @@ services:
     ports:
       - "5672:5672"   # AMQP protocol port
       - "15672:15672" # management interface port
+    networks:
+      - mtsds-network
+

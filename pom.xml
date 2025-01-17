@@ -21,6 +21,7 @@
 		<module>gestao_utilizadores</module>
         <module>repo_entregas</module>
         <module>calculo_rota</module>
+        <!--<module>gestao_notificacoes</module>-->
     </modules>
 
 	<properties>
