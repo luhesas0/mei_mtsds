@@ -1,6 +1,4 @@
-networks:
-  mtsds-network:
-    driver: bridge
+﻿version: '3.8'
 
 services:
   eureka-server:
@@ -46,7 +44,32 @@ services:
       - mtsds-network
     restart: always
 
+  notificacoes:
+    build:
+      context: ./Notificacoes
+    container_name: notificacoes
+    depends_on:
+      - postgres
+      - RABBITMQ
 
+    ports:
+      - "8076:8076"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/notificacoes
+      - SPRING_DATASOURCE_USERNAME=notificacao
+      - SPRING_DATASOURCE_PASSWORD=123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+      - SPRING_RABBITMQ_HOST=RABBITMQ
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBIT_PASSWORD=guest
+    volumes:
+      - ./logs:/app/logs  #Persistência dos logs do microserviço
+    networks:
+      - mtsds-network
+    restart: always
 
   postgres:
     image: postgres:16.0
@@ -84,4 +107,15 @@ services:
       - "15672:15672" # management interface port
     networks:
       - mtsds-network
+
+volumes:
+  utilizadores_pgdata:
+    name: utilizadores_pgdata
+  notificacao_pgdata:
+    name: notificacao_pgdata
+  logs_volume:
+    driver: local
+
+networks:
+  mtsds-network:
 

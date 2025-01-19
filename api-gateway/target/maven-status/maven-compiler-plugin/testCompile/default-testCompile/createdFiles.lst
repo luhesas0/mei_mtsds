@@ -1,0 +1,4 @@
+com\example\ApiGatewayApplicationTest.class
+com\example\config\GatewayRouteIntegrationTest.class
+com\example\filters\AuthenticationFilterTest.class
+com\example\filters\RouteValidatorTest.class
