@@ -10,5 +10,7 @@ import java.util.List;
 public class UtilizadorDTO {
     private String id; //ID do Utilizador
     private String nome; //Nome do Utilizador
+    private String unidade;
+    private String repositorio;
     private List<String>roles; //Lista de funções (role) do utilizador
 }

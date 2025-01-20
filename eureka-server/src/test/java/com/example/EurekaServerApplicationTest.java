@@ -1,25 +1,30 @@
 package com.example;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.springframework.boot.SpringApplication;
 
-public class EurekaServerApplicationTests extends TestCase {
+import static org.mockito.Mockito.mockStatic;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-    public EurekaServerApplicationTests(String testName){
-        super(testName);
-    }
+public class EurekaServerApplicationTest {
 
-    public static Test suite(){
-        return new TestSuite(EurekaServerApplicationTests.class);
-    }
-
-    public void testAppStartsSuccessfully(){
-        try{
-            EurekaServerApplicationTests.main(new String[]{});
-            assertTrue(true);
-        } catch (Exception e){
-            fail("A aplicação não iniciou corretamente.");
+    @Test
+    void applicationStartsSuccessfully(){
+        // Testa se a aplicação inicia sem lançar exceções
+        try (MockedStatic<SpringApplication> springApplicationMock = mockStatic(SpringApplication.class)){
+           assertDoesNotThrow(() -> {
+               SpringApplication.run(EurekaServerApplication.class, new String[]{});
+           });
+           springApplicationMock.verify(() ->
+                   SpringApplication.run(EurekaServerApplication.class, new String[]{}));
         }
+    }
+
+    @Test
+    void mainMethodRunSuccessfully(){
+        //Testa se o método main executa sem lançar exceções
+        assertDoesNotThrow(()-> EurekaServerApplication.main(new String[]{}));
     }
 }

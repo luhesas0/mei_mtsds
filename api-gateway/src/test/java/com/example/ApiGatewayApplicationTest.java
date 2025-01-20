@@ -8,6 +8,12 @@ public class ApiGatewayApplicationTest {
 
     @Test
     void contextLoads(){
-        // Testa se o contexto do Spring Boot carrega sem erros.
+        System.out.println("Contexto carregado com Sucesso!");
+    }
+
+    @Test
+    void applicationStarts(){
+        ApiGatewayApplication.main(new String[]{});
+        System.out.println("Aplicação iniciou com sucesso!");
     }
 }

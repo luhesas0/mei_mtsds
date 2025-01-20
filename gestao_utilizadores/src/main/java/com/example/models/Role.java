@@ -20,7 +20,7 @@ import java.util.List;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "role")
-public class Papel {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

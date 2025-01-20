@@ -6,20 +6,16 @@
     <parent>
         <groupId>com.example</groupId>
         <artifactId>mtsdsgrupo7</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.example</groupId>
     <artifactId>Notificacoes</artifactId>
     <url>http://maven.apache.org</url>
     <packaging>jar</packaging>
 
     <properties>
         <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring.boot.dependencies>3.1.2</spring.boot.dependencies>
         <modelmapper>3.1.1</modelmapper>
     </properties>
@@ -133,6 +129,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.example.NotificacoesApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

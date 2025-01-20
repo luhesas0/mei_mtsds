@@ -13,15 +13,15 @@ public class RouteValidator {
 
     //Lista de endpoints públicos
     public static final List<String> openApiEndpoints = Arrays.asList(
-            "/auth/register",
-            "/auth/login",
-            "/eureka",
-            "/api/utilizadores"
+            "/auth/register",  //Registo de novos utilizadores
+            "/auth/login",     // Login de utilizadores
+            "/eureka",         // Endpoint do Eureka Server
+            "/utilizadores/landing" //Verificação do serviço de utilizadores
             );
 
     //Predicate para verificar se uma rota é protegida
     public Predicate<ServerHttpRequest> isSecured =
             request -> openApiEndpoints
                     .stream()
-                    .noneMatch(uri->request.getURI().getPath().contains(uri));
+                    .noneMatch(uri->request.getURI().getPath().equals(uri));
 }

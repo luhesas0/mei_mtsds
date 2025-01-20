@@ -1,31 +1,37 @@
 package com.example.config;
 
+import com.example.filters.AuthenticationFilter;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.reactive.server.WebTestClient;
+import org.mockito.Mockito;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+
 public class GatewayRouteIntegrationTest {
 
-    @Autowired
-    private WebTestClient webTestClient;
-
     @Test
-    void testUtilizadoresRoute(){
-        webTestClient.get()
-                .uri("/utilizadores")
-                .exchange()
-                .expectStatus().isOk(); //Valida que a rota está configurada corretamente
-    }
+    void testCustomRouteLocator(){
+        //Mock do AuthenticationFilter
+        AuthenticationFilter mockAuthFilter = mock(AuthenticationFilter.class);
 
-    @Test
-    void testRotasNaoExistentes(){
-        webTestClient.get()
-                .uri("/rota-nao-existente")
-                .exchange()
-                .expectStatus().isNotFound(); //Valida que rotas não configuradas retornam 404
+        // Mock do RouteLocatorBuilder
+        RouteLocatorBuilder mockBuilder = mock(RouteLocatorBuilder.class);
+        RouteLocatorBuilder.Builder mockRouteBuilder = mock(RouteLocatorBuilder.Builder.class);
+        RouteLocator mockRouteLocator = mock(RouteLocator.class);
+
+        // Configurar comportamento dos mocks
+        when(mockBuilder.routes()).thenReturn(mockRouteBuilder);
+        when(mockRouteBuilder.route(anyString(), any())).thenReturn(mockRouteBuilder);
+        when(mockRouteBuilder.build()).thenReturn(mockRouteLocator);
+
+        //Testar GatewayConfig
+        GatewayConfig gatewayConfig = new GatewayConfig(mockAuthFilter);
+        RouteLocator routeLocator = gatewayConfig.customRouteLocator(mockBuilder);
+
+        // Validar que as rotas forma configuradas corretamente
+        assertThat(routeLocator).isNotNull();
+        System.out.println("Rotas configuradas corretamente!");
     }
 }

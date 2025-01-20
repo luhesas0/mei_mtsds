@@ -1,9 +1,0 @@
-com\example\models\Notificacao.class
-com\example\models\StatusEntrega.class
-com\example\models\EmailMessage.class
-com\example\auditing\AuditingEntityListener.class
-com\example\models\Avaliacao.class
-com\example\config\RabbitMQConfig.class
-com\example\NotificacoesApplication.class
-com\example\enums\Criterio.class
-com\example\enums\StatusEntregaEnum.class
