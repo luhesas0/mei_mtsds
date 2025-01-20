@@ -8,7 +8,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class OrdemTrabalhoDTO {
-    private Integer id;
+    private Integer orderId;
     private Integer funcionarioId;
     private Integer menuId;
     private Integer quantidade;

@@ -1,24 +1,12 @@
 version: '3.8'
 
 services:
-#  eureka-server:
-#    build:
-#      context: ./eureka-server
-#      dockerfile: Dockerfile
-#    container_name: eureka-server
-#    ports:
-#      - "8761:8761"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=default
-#    restart: always
-
   postgres:
     image: postgres:16.0
     container_name: postgres_server
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: db_repo_entregas
     ports:
       - 5432:5432
     volumes:

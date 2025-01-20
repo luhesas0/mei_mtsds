@@ -31,7 +31,7 @@ public class OrdemTrabalhoController {
     private OTPublisher publisher;
 
     public OrdemTrabalhoController() {
-        modelMapper = new ModelMapper();
+        this.modelMapper = new ModelMapper();
     }
 
     @GetMapping("/landing")
@@ -88,7 +88,7 @@ public class OrdemTrabalhoController {
     ResponseEntity<?> update(@PathVariable Integer id, @RequestBody OrdemTrabalhoDTO ordemEntregaDTO) {
         OrdemTrabalho updatedOrdem;
 
-        if(ordemEntregaDTO.getId() != id) {
+        if(ordemEntregaDTO.getOrderId() != id) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body("(LS) (OrdemTrabalhoUpdate): Id inconsistency");
@@ -136,6 +136,7 @@ public class OrdemTrabalhoController {
         );
     }
 
+
 //    @GetMapping("/status/funcionario/{funcionarioId}")
 //    public ResponseEntity<List<OrdemTrabalhoDTO>> getPorFuncionario(@PathVariable Integer funcionarioId) {
 //        logger.info("List de ordens de trabalho por id de funcionario: {}", funcionarioId);
@@ -149,7 +150,4 @@ public class OrdemTrabalhoController {
 //        OrdemTrabalhoDTO ordemAtualizada = OtService.updateOTStatus(id, ordemEntregaDTO.getStatus());
 //        return ResponseEntity.ok(ordemAtualizada);
 //    }
-
-    // get information from other services
-
 }

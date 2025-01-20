@@ -6,6 +6,7 @@ import com.estg.dtos.OrdemTrabalhoDTO;
 import com.estg.dtos.OrderDTO;
 import com.estg.enums.OrderStatus;
 import com.estg.exceptions.*;
+import com.estg.messaging.OTPublisher;
 import com.estg.models.OrdemTrabalho;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -33,17 +34,18 @@ public class OrdemTrabalhoService {
     @Value("${endpoints.gestao_utilizadores.url}")
     private String gestaoUtilizadoresUrl;
 
-    @Value("${endpoints.gestao_menus.url}")
+    @Value("${endpoints.criacao_menu.url}")
     private String gestaoMenusUrl;
 
     @Autowired
     private OrdemTrabalhoRepository repository;
 
-    private final ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     public OrdemTrabalhoService() {
-        this.modelMapper = new ModelMapper();
+        modelMapper = new ModelMapper();
     }
+
 
     public List<OrdemTrabalho> getAll() {
         logger.info("(LS) Listing all OTs");
@@ -57,6 +59,7 @@ public class OrdemTrabalhoService {
                 .orElseThrow(() -> new OrdemTrabalhoNotFound(id));
     }
 
+    @Transactional
     public OrdemTrabalho update(OrdemTrabalho ordemTrabalho) throws OrdemTrabalhoNotFound {
         if(repository.existsById(ordemTrabalho.getOrderId())) {
             logger.info("(LS) Updating order with ID: {}", ordemTrabalho.getOrderId());
@@ -67,6 +70,7 @@ public class OrdemTrabalhoService {
         }
     }
 
+    @Transactional
     public OrdemTrabalho add(OrdemTrabalho ordemTrabalho) {
         if (repository.existsById(ordemTrabalho.getOrderId())) {
             logger.info("(LS) Order with ID: {} already exists", ordemTrabalho.getOrderId());
@@ -129,6 +133,11 @@ public class OrdemTrabalhoService {
         OrdemTrabalho ordemTrabalho = get(OrdemTrabalhoId);
         FuncionarioDTO funcionarioDTO = getFuncionario(funcionarioId);
 
+        ordemTrabalho.setFuncionarioId(funcionarioId);
+        ordemTrabalho.setStatus(OrderStatus.ACCEPTED);
+
+        logger.info("Assigning order with ID: {} to funcionario with ID: {}", OrdemTrabalhoId, funcionarioId);
+        repository.save(ordemTrabalho);
     }
 
     public void getOrder(String orderId)
