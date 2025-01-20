@@ -21,11 +21,12 @@
 		<module>gestao_utilizadores</module>
         <module>repo_entregas</module>
         <module>calculo_rota</module>
+        <module>Notificacoes</module>
     </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.boot.dependendies>3.1.2</spring.boot.dependendies>
+		<spring.boot.dependencies>3.1.2</spring.boot.dependencies>
 		<spring.boot.version>3.1.2</spring.boot.version>
 		<spring.cloud.version>2022.0.5</spring.cloud.version>
 		<project.lombok>1.18.28</project.lombok>

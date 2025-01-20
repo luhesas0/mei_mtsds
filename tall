@@ -1,0 +1,60 @@
+*   [33mb5ad9d8[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m Merge remote-tracking branch 'origin/master'
+[31m|[m[32m\[m  
+[31m|[m * [33m4f782aa[m[33m ([m[1;31morigin/master[m[33m)[m Code added to service and modified some of it
+[31m|[m *   [33m78fc1a2[m Merge remote-tracking branch 'origin/master'
+[31m|[m [33m|[m[34m\[m  
+[31m|[m * [34m|[m [33m4bdc65a[m progress at rabbitmq
+* [34m|[m [34m|[m [33m5bf6a6b[m Salvando alterações locais antes de atualizar
+[34m|[m [34m|[m[34m/[m  
+[34m|[m[34m/[m[34m|[m   
+* [34m|[m [33md95cd31[m package controllers e testes unitários para Endpoints Rest (alguns)
+* [34m|[m [33m5dc9105[m package controllers e testes unitários para Endpoints Rest (alguns)
+[34m|[m[34m/[m  
+* [33mf7b273c[m Package messaging/ #Infraestrutura- RabbitMQ/Producer/Consumer/Notification
+* [33m13c2950[m Package config/ # Configurações com Beans RestTemplate, Filtro JWT, Spring Security e Rabbit
+* [33mb8a7252[m package test/service - testes unitários para serviços
+* [33m6cb591c[m Implementação do package service e ajustes no build
+* [33md0a03eb[m package service: centraliza a lógica de negócio
+* [33m4d4db69[m Removendo referências de módulos ausentes no pom.xml
+* [33m586e534[m Reaplicando alterações do stash
+* [33mf7a14b4[m dtos/application # Objetos de transferência de dados entre camadas.
+* [33m95b6567[m Repository - Interfaces para a persistência de dados
+* [33m45e4f68[m Regras de Negócio e Lógica do Domínio - Entidades JPA
+* [33m664f26e[m warning de import não utilizado
+* [33m0488cda[m updated gitignore
+* [33m53a664a[m fix nos directories 2x
+* [33m8e03a20[m fix nos directories
+* [33ma88bdcf[m warning de import não utilizado
+* [33m264bdcd[m api-gateway, terminado teste unitario e nome route repositorio
+* [33m2e108e2[m More functionality to repo_entregas. added get by status, get by funcionario id etc
+* [33m509ef1d[m api-gateway, terminado teste unitario
+* [33m7032252[m Added code to repo_entregas
+* [33m0c61827[m Route no README
+* [33m022751e[m Terminar test Api-gateway
+* [33md68f25c[m Terminar test Api-gateway
+* [33m3138566[m eureka-Server
+* [33m8e2e831[m dto e filters api-gateway
+* [33m5fa3e88[m dto e filters api-gateway
+* [33m5075839[m  O enum que define role ou funções (admin, funcionario, cliente)
+* [33m8f0e4ed[m Entidades JPA, models, gestao_utilizadores
+* [33me88af98[m Entidades JPA, models, gestao_utilizadores
+* [33mf6742b7[m SpringBootApplication run Utilizadores
+* [33mdf2b9d6[m SpringBootApplication run Utilizadores
+* [33m0dbeedf[m configuracão base de dados PostgreSql
+* [33m4323087[m configuracão base de dados PostgreSql
+*   [33m9ba90b5[m Merge remote-tracking branch 'origin/master'
+[35m|[m[36m\[m  
+[35m|[m * [33me743448[m fix on module gestao_utilizadores
+* [36m|[m [33m7f54ac8[m Desalteracoes feitas do gitlab para github
+[36m|[m[36m/[m  
+* [33m8b577ba[m alteracao do modulo gestao_utilizadores
+* [33mb3b6055[m Fix nos pom.xml
+*   [33md282d8a[m módulos dos microsserviços criados.
+[1;31m|[m[1;32m\[m  
+[1;31m|[m * [33m046bb33[m Adicionar .gitignore
+[1;31m|[m * [33mdb34260[m api-gateway
+[1;31m|[m * [33me471d4a[m Eureka Server
+[1;31m|[m * [33m13727e3[m Update README.md
+[1;31m|[m * [33m031f7c2[m Initial commit
+* [33mceb8f45[m Primeiro commit, módulos dos microsserviços criados.
+* [33m636c3de[m Initial commit

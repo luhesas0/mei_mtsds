@@ -22,48 +22,56 @@
     </properties>
 
    <dependencies>
-       <!-- Dependência para aplicações web -->
+       <!-- Spring Boot Web: Para criar APIs REST -->
        <dependency>
            <groupId>org.springframework.boot</groupId>
            <artifactId>spring-boot-starter-web</artifactId>
        </dependency>
-       <!-- Dependência para acesso a dados com JPA -->
+       <!-- Spring Data JPA: Para persistência na base de dados -->
        <dependency>
            <groupId>org.springframework.boot</groupId>
            <artifactId>spring-boot-starter-data-jpa</artifactId>
        </dependency>
-       <!-- Dependência para segurança -->
+
+       <!-- PostgreSQL: Driver para integração com base de dados PostgreSQL -->
+       <dependency>
+           <groupId>org.postgresql</groupId>
+           <artifactId>postgresql</artifactId>
+           <scope>runtime</scope>
+       </dependency>
+
+       <!-- Spring Security: Para autenticação e controlo de acesso -->
        <dependency>
            <groupId>org.springframework.boot</groupId>
            <artifactId>spring-boot-starter-security</artifactId>
        </dependency>
+
        <!-- Dependência para monitorização-->
        <dependency>
            <groupId>org.springframework.boot</groupId>
            <artifactId>spring-boot-starter-actuator</artifactId>
        </dependency>
-       <!-- Dependência para registo e descoberta de serviços -->
+
+       <!-- Eureka Client para descoberta de serviços -->
        <dependency>
            <groupId>org.springframework.cloud</groupId>
            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
        </dependency>
+
        <!-- Dependência para base de dados H2 -->
        <dependency>
            <groupId>com.h2database</groupId>
            <artifactId>h2</artifactId>
        </dependency>
-       <!-- Dependência para conexão com PostgreSQL -->
-       <dependency>
-           <groupId>org.postgresql</groupId>
-           <artifactId>postgresql</artifactId>
-       </dependency>
-       <!-- Dependência para simplificação do código -->
+
+       <!-- Lombok para reduzir boilerplate -->
        <dependency>
            <groupId>org.projectlombok</groupId>
            <artifactId>lombok</artifactId>
            <optional>true</optional>
            <!-- Anotações como @Data, @Getter, @Setter, @Builder eliminam código boilerplate -->
        </dependency>
+
        <!-- Dependência para geração e validação de JWT (JSON Web Tokens) -->
        <dependency>
            <groupId>com.auth0</groupId>
@@ -71,6 +79,7 @@
            <version>4.3.0</version>
            <!-- Fornece suporte para criar, assinar e validar tokens JWT para autenticação -->
        </dependency>
+
        <!-- Dependência para testes -->
        <dependency>
            <groupId>org.springframework.boot</groupId>
@@ -83,7 +92,6 @@
                </exclusion>
            </exclusions>
        </dependency>
-
        <dependency>
            <groupId>org.springframework.security</groupId>
            <artifactId>spring-security-test</artifactId>
@@ -91,32 +99,24 @@
        </dependency>
 
        <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-starter-openfeign</artifactId>
+       </dependency>
+
+       <!--RabbitMQ para mensagens assíncronas-->
+       <dependency>
            <groupId>org.springframework.boot</groupId>
            <artifactId>spring-boot-starter-amqp</artifactId>
        </dependency>
 
-       <dependency>
-           <groupId>org.junit.jupiter</groupId>
-           <artifactId>junit-jupiter</artifactId>
-           <version>5.10.0</version>
-           <scope>test</scope>
-       </dependency>
-
-       <dependency>
-           <groupId>org.testcontainers</groupId>
-           <artifactId>rabbitmq</artifactId>
-           <version>1.19.3</version>
-           <scope>test</scope>
-       </dependency>
-
-       <!--Dependência para ModelMapper-->
+       <!--ModelMapper para mapeamento de objetos-->
        <dependency>
            <groupId>org.modelmapper</groupId>
            <artifactId>modelmapper</artifactId>
            <version>3.1.1</version>
        </dependency>
 
-<!--Dependências para Jackon-->
+<!--Dependências para suporte a JSON com Jackson-->
        <dependency>
            <groupId>com.fasterxml.jackson.core</groupId>
            <artifactId>jackson-databind</artifactId>
@@ -138,5 +138,25 @@
            <scope>test</scope>
        </dependency>
    </dependencies>
+
+    <build>
+        <plugins>
+            <!--Plugin para Spring Boot-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>false</executable>
+                </configuration>
+            </plugin>
+
+            <!--Plugin de limpeza do Maven-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
 

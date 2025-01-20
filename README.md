@@ -52,9 +52,9 @@ Para aceder às bases de dados associadas aos microserviços, siga os passos em 
 2. Escolher o serviço correspondente à base de dados que pretende utilizar.
 3. Configurar o serviço como POSTGRESQL ou MYSQL, dependendo do microserviço.
 
-| Serviço BD | Microserviço   | Base de Dados       | Username     | Password   |
-|------------|----------------|---------------------|--------------|------------|
-| PostgreSQL | /utilizadores  | gestao_utilizadores | utilizadores | utilizador |
+| Serviço BD | Microserviço   | Base de Dados       | Username            | Password   |
+|------------|----------------|---------------------|---------------------|------------|
+| PostgreSQL | /utilizadores  | gestao_utilizadores | gestao_utilizadores | 123        | 
 
 
 ## Como Executar o Projeto

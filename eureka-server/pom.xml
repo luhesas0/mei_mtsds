@@ -62,9 +62,7 @@
             <plugin>
                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>org.example.EurekaServerApplication</mainClass>
-                </configuration>
+                <version>3.3.4</version>
             </plugin>
         </plugins>
     </build>
