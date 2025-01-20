@@ -8,5 +8,9 @@
 target/
 .idea
 
+# Ignore Docker directory
+Docker/
+
+
 # Docs directory (ignorar a pasta Docs e seus conteúdos)
 Docs/
