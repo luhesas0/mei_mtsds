@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * Controlador REST para gerir registos de login de utilizadores.
  */
 @RestController
-@RequestMapping("/registos-login")
+@RequestMapping("/utilizadores/registos-login")
 public class RegistoLoginController {
 
     @Autowired

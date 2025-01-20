@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  *  Controlador REST para gerir permissões atribuídas aos utilizadores.
  */
 @RestController
-@RequestMapping("/permissoes")
+@RequestMapping("/utilizadores/permissoes")
 public class PermissaoController {
 
     @Autowired

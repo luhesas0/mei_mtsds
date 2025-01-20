@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * Controlador REST para operações de autenticação e gestão de tokens.
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/utilizadores/auth")
 public class AuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
