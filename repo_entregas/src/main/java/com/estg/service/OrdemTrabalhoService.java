@@ -40,13 +40,6 @@ public class OrdemTrabalhoService {
     @Autowired
     private OrdemTrabalhoRepository repository;
 
-    private ModelMapper modelMapper;
-
-    public OrdemTrabalhoService() {
-        modelMapper = new ModelMapper();
-    }
-
-
     public List<OrdemTrabalho> getAll() {
         logger.info("(LS) Listing all OTs");
         return repository.findAll();
@@ -105,10 +98,9 @@ public class OrdemTrabalhoService {
             throws UtilizadorServiceUnexpectedException, UtilizadoresUnexistingFuncionarioException, MissingDataException {
 
         FuncionarioDTO funcionarioDTO;
-
         RestTemplate restTemplate = new RestTemplate();
+
         try {
-            //request
             ResponseEntity<FuncionarioDTO> response = restTemplate.getForEntity(
                     gestaoUtilizadoresUrl + "/{funcionarioId}",
                     FuncionarioDTO.class,
@@ -127,11 +119,19 @@ public class OrdemTrabalhoService {
         }
     }
 
+    @Transactional
     public void assignOT(Integer OrdemTrabalhoId, Integer funcionarioId)
             throws OrdemTrabalhoNotFound, UtilizadorServiceUnexpectedException, UtilizadoresUnexistingFuncionarioException, MissingDataException {
 
         OrdemTrabalho ordemTrabalho = get(OrdemTrabalhoId);
         FuncionarioDTO funcionarioDTO = getFuncionario(funcionarioId);
+
+        if (ordemTrabalho == null || funcionarioDTO == null) {
+            logger.info("Order with ID: {} or funcionario with ID: {} not found", OrdemTrabalhoId, funcionarioId);
+            throw new OrdemTrabalhoNotFound(OrdemTrabalhoId);
+        } else {
+            logger.info("Order with ID: {} and funcionario with ID: {} found", OrdemTrabalhoId, funcionarioId);
+        }
 
         ordemTrabalho.setFuncionarioId(funcionarioId);
         ordemTrabalho.setStatus(OrderStatus.ACCEPTED);
@@ -161,6 +161,8 @@ public class OrdemTrabalhoService {
             ordemTrabalho.setEnderecoEntrega(orderDTO.getDeliveryAddress());
             ordemTrabalho.setContacto(orderDTO.getContact());
             ordemTrabalho.setNomeCliente(orderDTO.getClientName());
+
+            repository.save(ordemTrabalho);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             if(e.getStatusCode() == HttpStatus.BAD_REQUEST) {
                 throw new MenuServiceUnexpectedException();
@@ -172,6 +174,12 @@ public class OrdemTrabalhoService {
         }
     }
 
+    public OrdemTrabalho updateOTStatus(Integer id, OrderStatus status) throws OrdemTrabalhoNotFound {
+        OrdemTrabalho ordemTrabalho = get(id);
+        ordemTrabalho.setStatus(status);
+        logger.info("Updating order with ID: {} to status: {}", id, status);
+        return repository.save(ordemTrabalho);
+    }
 
     public void delete(Integer id) throws OrdemTrabalhoNotFound {
         if(repository.existsById(id)) {

@@ -74,6 +74,7 @@ public class OrdemTrabalhoController {
         try {
             newOrdem = OtService.add
                     (modelMapper.map(ordemEntregaDTO, OrdemTrabalho.class));
+            publisher.publish(newOrdem);
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
@@ -136,7 +137,32 @@ public class OrdemTrabalhoController {
         );
     }
 
+    @PutMapping("/{id}/assign/{funcionarioId}")
+    ResponseEntity<?> assignFuncionario(@PathVariable Integer OTid, @PathVariable Integer funcionarioId) {
+        OrdemTrabalho updatedOrdem;
+        try {
+           updatedOrdem = OtService.assignOT(OTid, funcionarioId);
+        } catch (OrdemTrabalhoNotFound e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
 
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> atualizarStatus(@PathVariable Integer id, @RequestBody OrdemTrabalhoDTO ordemEntregaDTO) {
+        logger.info("Updating status da ordem de trabalho com o ID: {}", id);
+        OrdemTrabalho ordemAtualizada;
+
+        ordemAtualizada = OtService.updateOTStatus(id, ordemEntregaDTO.getStatus());
+        return ResponseEntity.ok(ordemAtualizada);
+    }
+}
 //    @GetMapping("/status/funcionario/{funcionarioId}")
 //    public ResponseEntity<List<OrdemTrabalhoDTO>> getPorFuncionario(@PathVariable Integer funcionarioId) {
 //        logger.info("List de ordens de trabalho por id de funcionario: {}", funcionarioId);
@@ -144,10 +170,4 @@ public class OrdemTrabalhoController {
 //        return ResponseEntity.ok(ordens);
 //    }
 
-//    @PutMapping("/{id}/status")
-//    public ResponseEntity<?> atualizarStatus(@PathVariable Integer id, @RequestBody OrdemTrabalhoDTO ordemEntregaDTO) {
-//        logger.info("Updating status da ordem de trabalho com o ID: {}", id);
-//        OrdemTrabalhoDTO ordemAtualizada = OtService.updateOTStatus(id, ordemEntregaDTO.getStatus());
-//        return ResponseEntity.ok(ordemAtualizada);
-//    }
-}
+
