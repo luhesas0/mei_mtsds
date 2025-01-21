@@ -29,6 +29,9 @@
 		<spring.boot.dependencies>3.1.2</spring.boot.dependencies>
 		<project.lombok>1.18.28</project.lombok>
 		<modelmapper>3.1.1</modelmapper>
+		<java.jwt.version>4.3.0</java.jwt.version>
+		<junit.jupiter.version>5.9.3</junit.jupiter.version>
+		<mockito.version>4.11.0</mockito.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
@@ -93,4 +96,14 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>3.1.2</version>
+			</plugin>
+		</plugins>
+	</build>
 </project>

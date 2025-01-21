@@ -24,27 +24,31 @@ Este repositório documenta o desenvolvimento da plataforma **FoodStream**, apre
 
 
 ## Ferramentas e Tecnologias Utilizadas
-**Frameworks e Linguagens:** Spring Boot, Java jdk17.
+**Ferramenta de Desenvolvimento:** Intellij Idea.
 
-**Comunicação:** REST API, RabitMQ (assíncrono).
+**Paradigma de Arquitetura e Design:** Microserviços, APIs RESTful, CRUD e DDD.
+
+**Frameworks e Linguagens:** Spring Boot, Java jdk17, Maven, Lombok.
+
+**Serviço de Descoberta e Comunicação:** Eureka, RabitMQ (assíncrono).
+
+**Pattern:** API Gateway
 
 **Base de Dados:** PostgreSQL, MySQL para persistência de dados.
-
-**Gestão de Configuração:** Spring Cloud Config.
 
 **Monitorização e Logs:** Spring Boot Actuator.
 
 **Deployment:** Minikube (K8S)
 
-## Roteamento dos requests
-| **Rota(api-gateway)localhost:8070**        | **Serviços Subjacentes**    |
-|--------------------------------------------|-----------------------------|
-| [utilizadores-route] Path=/utilizadores/** | localhost:8071/utilizadores |
-| [menu-route] Path=/menu/**                 | localhost:8072/menu         |
-| [stock-route] Path=/stock/**               | localhost:8073/stock        |
-| [repositorio-route] Path=/repositorio/**   | localhost:8074/repositorio  |
-| [rotas-route] Path=/rotas/**               | localhost:8075/rotas        |
-
+## Rotas e Serviços Subjacentes
+| **Microserviço**        | **Rota(api-gateway)localhost:8080**        | **Serviços Subjacentes**    |
+|-------------------------|--------------------------------------------|-----------------------------|
+| Gestão de Utilizadores  | [utilizadores-route] Path=/utilizadores/** | localhost:8071/utilizadores |
+| Criação de Menus        | [menu-route] Path=/menu/**                 | localhost:8072/menu         |
+| Verificação de Stock    | [stock-route] Path=/stock/**               | localhost:8073/stock        |
+| Repositório de Entregas | [repositorio-route] Path=/repositorio/**   | localhost:8074/repositorio  |
+| Cálculo de Rotas        | [rotas-route] Path=/rotas/**               | localhost:8075/rotas        |
+| Serviço de Notificações | [notificacao] Path=/notificacoes/**        | localhost:8076/notificacoes |
 
 ## Base de Dados
 Para aceder às bases de dados associadas aos microserviços, siga os passos em baixo:
@@ -52,9 +56,14 @@ Para aceder às bases de dados associadas aos microserviços, siga os passos em 
 2. Escolher o serviço correspondente à base de dados que pretende utilizar.
 3. Configurar o serviço como POSTGRESQL ou MYSQL, dependendo do microserviço.
 
-| Serviço BD | Microserviço   | Base de Dados       | Username            | Password   |
-|------------|----------------|---------------------|---------------------|------------|
-| PostgreSQL | /utilizadores  | gestao_utilizadores | gestao_utilizadores | 123        | 
+| Serviço BD | Microserviço        | Base de Dados       | Username            | Password |
+|------------|---------------------|---------------------|---------------------|----------|
+| PostgreSQL | gestao_utilizadores | gestao_utilizadores | gestao_utilizadores | 123      | 
+| PostgreSQL | criacao_menu        | XXXX                |  YYYY               | 111      |   
+| PostgreSQL | verifica_stock      | XXXX                |  YYYY               | 111      |   
+| PostgreSQL | repo_entregas       | XXXX                |  YYYY               | 111      |   
+| PostgreSQL | calculo_rota        | XXXX                |  YYYY               | 111      |   
+| PostgreSQL | Notificacoes        | XXXX                |  YYYY               | 111      | 
 
 
 ## Como Executar o Projeto
@@ -72,8 +81,6 @@ Para aceder às bases de dados associadas aos microserviços, siga os passos em 
 1. Spring Cloud Config
 2. RabbitMQ
 3. Criação de Imagens Docker:
-
-
 
 
 ## Comandos Git Mais Comuns

@@ -40,6 +40,9 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=default
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/utilizadores
+      - SPRING_DATASOURCE_USERNAME=utilizadores
+      - SPRING_DATASOURCE_PASSWORD=123
     networks:
       - mtsds-network
     restart: always
