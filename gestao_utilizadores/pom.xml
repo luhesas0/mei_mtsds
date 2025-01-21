@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.example</groupId>
         <artifactId>mtsdsgrupo7</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>gestao_utilizadores</artifactId>
@@ -16,46 +16,14 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
    <dependencies>
-       <!-- Spring Boot Web: Para criar APIs REST -->
-       <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-web</artifactId>
-       </dependency>
        <!-- Spring Data JPA: Para persistência na base de dados -->
        <dependency>
            <groupId>org.springframework.boot</groupId>
            <artifactId>spring-boot-starter-data-jpa</artifactId>
-       </dependency>
-
-       <!-- PostgreSQL: Driver para integração com base de dados PostgreSQL -->
-       <dependency>
-           <groupId>org.postgresql</groupId>
-           <artifactId>postgresql</artifactId>
-           <scope>runtime</scope>
-       </dependency>
-
-       <!-- Spring Security: Para autenticação e controlo de acesso -->
-       <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-security</artifactId>
-       </dependency>
-
-       <!-- Dependência para monitorização-->
-       <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-actuator</artifactId>
-       </dependency>
-
-       <!-- Eureka Client para descoberta de serviços -->
-       <dependency>
-           <groupId>org.springframework.cloud</groupId>
-           <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
        </dependency>
 
        <!-- Dependência para base de dados H2 -->
@@ -64,49 +32,50 @@
            <artifactId>h2</artifactId>
        </dependency>
 
-       <!-- Lombok para reduzir boilerplate -->
+       <!-- PostgreSQL: Driver para integração com base de dados PostgreSQL -->
        <dependency>
-           <groupId>org.projectlombok</groupId>
-           <artifactId>lombok</artifactId>
-           <optional>true</optional>
-           <!-- Anotações como @Data, @Getter, @Setter, @Builder eliminam código boilerplate -->
+           <groupId>org.postgresql</groupId>
+           <artifactId>postgresql</artifactId>
        </dependency>
 
-       <!-- Dependência para geração e validação de JWT (JSON Web Tokens) -->
-       <dependency>
-           <groupId>com.auth0</groupId>
-           <artifactId>java-jwt</artifactId>
-           <version>4.3.0</version>
-           <!-- Fornece suporte para criar, assinar e validar tokens JWT para autenticação -->
-       </dependency>
-
-       <!-- Dependência para testes -->
+       <!--Spring Starter Security-->
        <dependency>
            <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-test</artifactId>
-           <scope>test</scope>
-           <exclusions>
-               <exclusion>
-                   <groupId>org.junit.vintage</groupId>
-                   <artifactId>junit-vintage-engine</artifactId>
-               </exclusion>
-           </exclusions>
+           <artifactId>spring-boot-starter-security</artifactId>
        </dependency>
+
+       <!--Security test-->
        <dependency>
            <groupId>org.springframework.security</groupId>
            <artifactId>spring-security-test</artifactId>
            <scope>test</scope>
        </dependency>
 
+       <!--Auth0-->
        <dependency>
-           <groupId>org.springframework.cloud</groupId>
-           <artifactId>spring-cloud-starter-openfeign</artifactId>
+           <groupId>com.auth0</groupId>
+           <artifactId>java-jwt</artifactId>
+           <version>4.3.0</version>
        </dependency>
 
-       <!--RabbitMQ para mensagens assíncronas-->
+       <!-- Eureka Client para descoberta de serviços -->
+       <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+           <version>4.0.2</version>
+       </dependency>
+
+       <!-- Dependência para monitorização-->
        <dependency>
            <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-amqp</artifactId>
+           <artifactId>spring-boot-starter-actuator</artifactId>
+       </dependency>
+
+       <!-- Lombok para reduzir boilerplate -->
+       <dependency>
+           <groupId>org.projectlombok</groupId>
+           <artifactId>lombok</artifactId>
+           <optional>true</optional>
        </dependency>
 
        <!--ModelMapper para mapeamento de objetos-->
@@ -116,47 +85,26 @@
            <version>3.1.1</version>
        </dependency>
 
-<!--Dependências para suporte a JSON com Jackson-->
-       <dependency>
-           <groupId>com.fasterxml.jackson.core</groupId>
-           <artifactId>jackson-databind</artifactId>
-       </dependency>
-
-       <dependency>
-           <groupId>com.fasterxml.jackson.core</groupId>
-           <artifactId>jackson-annotations</artifactId>
-       </dependency>
-
-       <dependency>
-           <groupId>com.fasterxml.jackson.core</groupId>
-           <artifactId>jackson-core</artifactId>
-       </dependency>
-
        <dependency>
            <groupId>org.mockito</groupId>
            <artifactId>mockito-core</artifactId>
            <scope>test</scope>
        </dependency>
+
+       <!--Junit 5-->
+       <dependency>
+           <groupId>org.junit.jupiter</groupId>
+           <artifactId>junit-jupiter</artifactId>
+           <version>5.9.3</version>
+           <scope>test</scope>
+       </dependency>
+
+       <!--JWT-->
+       <dependency>
+           <groupId>com.auth0</groupId>
+           <artifactId>java-jwt</artifactId>
+           <version>4.3.0</version>
+       </dependency>
    </dependencies>
-
-    <build>
-        <plugins>
-            <!--Plugin para Spring Boot-->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>false</executable>
-                </configuration>
-            </plugin>
-
-            <!--Plugin de limpeza do Maven-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.2.0</version>
-            </plugin>
-        </plugins>
-    </build>
 </project>
 

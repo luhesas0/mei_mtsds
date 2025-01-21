@@ -1,11 +1,6 @@
 # Docs directory (ignorar a pasta Docs e seus conteúdos)
 Docs/
-
-# Ignorar todos os .jar no projeto
-*.jar
-
-# Exceções para arquivos dentro de target
-!*/target/*.jar
+Docker/
 
 # Default ignored files
 /shelf/

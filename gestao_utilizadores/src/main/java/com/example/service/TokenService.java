@@ -27,6 +27,16 @@ public class TokenService {
     private String secret;
 
     /**
+     * Setter para a chave secreta do token.
+     * Útil para testes onde o valor da chave é definido dinamicamente.
+     *
+     * @param secret Chave secreta para geração/validação de tokens.
+     */
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
+    /**
      *  Gera um token JWT para o utilizador autenticado.
      *
      * @param utilizador Utilizador autenticado.

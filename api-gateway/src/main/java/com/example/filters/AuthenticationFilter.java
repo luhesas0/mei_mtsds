@@ -1,5 +1,6 @@
 package com.example.filters;
 
+import com.example.config.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -20,8 +21,15 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory <Authenti
     @Autowired
     private RestTemplate restTemplate;
 
-    public AuthenticationFilter(){
+    @Autowired
+    private AppConfig appConfig; //Classe de configuração
+
+    @Autowired
+    public AuthenticationFilter(RouteValidator routeValidator, RestTemplate restTemplate, AppConfig appConfig){
         super(Config.class);
+        this.routeValidator = routeValidator;
+        this.restTemplate = restTemplate;
+        this.appConfig = appConfig;
     }
 
     @Override
@@ -52,7 +60,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory <Authenti
 
             try{
                 //Enviar o token para o microserviço gestao_utilizadores para validação
-                String validateUrl = "http://localhost:8071/api/auth/validate?token=" + authHeader;
+                String validateUrl = appConfig.getUrl() + "/auth/validate?token=" + authHeader;
                 ResponseEntity<String> response = restTemplate.getForEntity(validateUrl, String.class);
 
                 if (response.getStatusCode() == HttpStatus.OK){

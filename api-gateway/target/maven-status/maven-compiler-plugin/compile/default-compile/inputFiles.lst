@@ -1,8 +1,9 @@
+C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\dto\PermissoesDTO.java
 C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\filters\AuthenticationFilter.java
 C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\config\GatewayConfig.java
 C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\dto\UtilizadorDTO.java
+C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\config\AppConfig.java
 C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\dto\ErrorResponseDTO.java
 C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\ApiGatewayApplication.java
 C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\filters\RouteValidator.java
-C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\dto\PermissaoDTO.java
 C:\Users\celia\meus_projetos\mtsdsgrupo7\api-gateway\src\main\java\com\example\config\RestTemplateConfig.java

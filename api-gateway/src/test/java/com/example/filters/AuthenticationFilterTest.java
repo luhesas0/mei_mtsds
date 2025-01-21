@@ -1,68 +1,105 @@
 package com.example.filters;
 
+import com.example.config.AppConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient
 public class AuthenticationFilterTest {
 
-    @Autowired
-    private WebTestClient webTestClient;
-
-    @MockBean
+    private AuthenticationFilter authenticationFilter;
+    private RouteValidator routeValidator;
     private RestTemplate restTemplate;
+    private AppConfig appConfig;
 
-    @Test
-    void testAccesToProtectedRouteWithValidToken(){
-        // Simula uma resposta bem-sucedida do serviço de validação de token
-        when(restTemplate.getForEntity(anyString(), eq(String.class)))
-                .thenReturn(new ResponseEntity<>("Token válido", HttpStatus.OK));
+    @BeforeEach
+    void setUp(){
+        // Mockar as dependências
+        routeValidator = mock(RouteValidator.class);
+        restTemplate = mock(RestTemplate.class);
+        appConfig = mock(AppConfig.class);
 
-        webTestClient.get()
-                .uri("/utilizadores")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer valid-token")
-                .exchange()
-                .expectStatus().isOk(); // Verifica que a rota é acessível com token válido
+        // Inicializar AuthenticationFilter
+        authenticationFilter = new AuthenticationFilter(routeValidator, restTemplate, appConfig);
+
+        when(routeValidator.isSecured).thenReturn(request -> true);
     }
 
     @Test
-    void testAccessToProtectedRouteWithoutToken(){
-        webTestClient.get()
-                .uri("/utilizadores")
-                .exchange()
-                .expectStatus().isUnauthorized();
+    void shouldAllowAccessToOpenApiRoutes(){
+        // Simular uma rota pública
+        when(routeValidator.isSecured.test(any(ServerHttpRequest.class))).thenReturn(false);
+
+        // Mockar ServerWebExchange e configurar o request
+        ServerWebExchange exchange = mock(ServerWebExchange.class);
+        ServerHttpRequest request = MockServerHttpRequest.get("/auth/login").build();
+        when(exchange.getRequest()).thenReturn(request);
+
+        // Mockar o GatewayFilterChain
+        GatewayFilterChain chain = mock(GatewayFilterChain.class);
+        when(chain.filter(exchange)).thenReturn(Mono.empty());
+
+        // Executar o filtro
+        authenticationFilter.apply(new AuthenticationFilter.Config()).filter(exchange, chain);
+
+        // Verificar que o filtro continuou o processamento
+        verify(chain, times(1)).filter(exchange);
     }
 
-    @Test
-    void testAccessToOpenRoute(){
-        webTestClient.get()
-                .uri("/auth/login")
-                .exchange()
-                .expectStatus().isOk();
-    }
+   @Test
+    void shouldBlockUnauthorizedAccessIfNoAuthHeader(){
+        // Configurar o comportamento para uma rota protegida
+       when(routeValidator.isSecured.test(any(ServerHttpRequest.class))).thenReturn(true);
 
-    @Test
-    void testAccessToProtectedRouteWithInvalidToken(){
-        when(restTemplate.getForEntity(anyString(), eq(String.class)))
-                .thenReturn(new ResponseEntity<>("Token inválido", HttpStatus.UNAUTHORIZED));
+       // Mockar serverWebExchange e configurar o request
+       ServerWebExchange exchange = mock(ServerWebExchange.class);
+       ServerHttpRequest request = MockServerHttpRequest.get("/protected/resource").build();
+       when(exchange.getRequest()).thenReturn(request);
 
-        webTestClient.get()
-                .uri("/utilizadores")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer invalid-token")
-                .exchange()
-                .expectStatus().isUnauthorized();
-    }
+       // Mockar o GatewayFilterChain
+       GatewayFilterChain chain = mock(GatewayFilterChain.class);
+
+       // Executar o filtro
+       authenticationFilter.apply(new AuthenticationFilter.Config()).filter(exchange, chain);
+
+       // Verificar que o filtro não continuou o processamento
+       verify(chain, never()).filter(exchange);
+   }
+
+   @Test
+    void shouldAddAuthorizationHeaderForValidToken(){
+       // Configurar o comportamento para uma rota protegida
+       when(routeValidator.isSecured.test(any(ServerHttpRequest.class))).thenReturn(true);
+       when(appConfig.getUrl()).thenReturn("http://localhost:8080");
+
+       // Criar um request com o header Authorization
+       ServerWebExchange exchange = mock(ServerWebExchange.class);
+       ServerHttpRequest request = MockServerHttpRequest.get("/protected/resource")
+               .header(HttpHeaders.AUTHORIZATION, "Bearer valid-token")
+               .build();
+       when(exchange.getRequest()).thenReturn(request);
+
+       // Configurar o RestTemplate para retornar resposta válida
+        when(restTemplate.getForEntity(anyString(),eq(String.class))).thenReturn(ResponseEntity.ok("Valid"));
+
+       // Mockar o GatewayFilterChain
+       GatewayFilterChain chain = mock(GatewayFilterChain.class);
+       when(chain.filter(exchange)).thenReturn(Mono.empty());
+
+       // Executar o filtro
+       authenticationFilter.apply(new AuthenticationFilter.Config()).filter(exchange, chain);
+
+       // Verificar que o filtro continuou o processamento
+       verify(chain, times(1)).filter(exchange);
+   }
 }

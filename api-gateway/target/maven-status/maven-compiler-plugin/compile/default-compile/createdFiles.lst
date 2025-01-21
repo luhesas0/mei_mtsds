@@ -1,9 +1,11 @@
+com\example\dto\PermissoesDTO.class
 com\example\config\GatewayConfig.class
-com\example\filters\AuthenticationFilter$Config.class
 com\example\config\RestTemplateConfig.class
-com\example\dto\ErrorResponseDTO.class
-com\example\dto\PermissaoDTO.class
 com\example\filters\AuthenticationFilter.class
 com\example\dto\UtilizadorDTO.class
+META-INF\spring-configuration-metadata.json
 com\example\ApiGatewayApplication.class
 com\example\filters\RouteValidator.class
+com\example\config\AppConfig.class
+com\example\filters\AuthenticationFilter$Config.class
+com\example\dto\ErrorResponseDTO.class
