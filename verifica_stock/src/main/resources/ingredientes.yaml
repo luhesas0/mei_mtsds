@@ -1,0 +1,51 @@
+ingredientes:
+  sopas:
+    - Ervilhas
+    - Alho-francês
+    - Cenoura
+    - Brócolos
+    - Cebola
+    - Couve coração
+
+  pratos_principais:
+    - Calamares
+    - Arroz
+    - Tomate
+    - Massa cotovelo
+    - Abrótea
+    - Cenoura
+    - Peru
+    - Milho
+    - Batata
+    - Salmão
+    - Ervilhas
+    - Vaca
+    - Frango
+    - Pescada
+    - Salmão
+    - Porco
+
+  horticolas:
+    - Pepino
+    - Couve-roxa
+    - Couve cozida
+    - Alface
+    - Couve-flor
+    - Tomate
+
+  sobremesas:
+    - Banana
+    - Pera
+    - Laranja
+    - Tangerina
+    - Kiwi
+    - Maçã
+
+  lanches:
+    - Pão de mistura
+    - Queijo
+    - Leite
+    - Tangerina
+    - Compota
+    - Iogurte líquido
+    - Cereais de milho
