@@ -1,9 +1,9 @@
 package com.example.repository;
 
-import com.example.model.Menu;
+import com.example.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MenuRepository extends JpaRepository<Menu, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }
