@@ -1,51 +1,92 @@
 ingredientes:
   sopas:
-    - Ervilhas
-    - Alho-francês
-    - Cenoura
-    - Brócolos
-    - Cebola
-    - Couve coração
+    - id: 1
+      nome: Ervilhas
+    - id: 2
+      nome: Alho-francês
+    - id: 3
+      nome: Cenoura
+    - id: 4
+      nome: Brócolos
+    - id: 5
+      nome: Cebola
+    - id: 6
+      nome: Couve coração
 
   pratos_principais:
-    - Calamares
-    - Arroz
-    - Tomate
-    - Massa cotovelo
-    - Abrótea
-    - Cenoura
-    - Peru
-    - Milho
-    - Batata
-    - Salmão
-    - Ervilhas
-    - Vaca
-    - Frango
-    - Pescada
-    - Salmão
-    - Porco
+    - id: 7
+      nome: Calamares
+    - id: 8
+      nome: Arroz
+    - id: 9
+      nome: Tomate
+    - id: 10
+      nome: Massa cotovelo
+    - id: 11
+      nome: Abrótea
+    - id: 12
+      nome: Cenoura
+    - id: 13
+      nome: Peru
+    - id: 14
+      nome: Milho
+    - id: 15
+      nome: Batata
+    - id: 16
+      nome: Salmão
+    - id: 17
+      nome: Ervilhas
+    - id: 18
+      nome: Vaca
+    - id: 19
+      nome: Frango
+    - id: 20
+      nome: Pescada
+    - id: 21
+      nome: Salmão
+    - id: 22
+      nome: Porco
 
   horticolas:
-    - Pepino
-    - Couve-roxa
-    - Couve cozida
-    - Alface
-    - Couve-flor
-    - Tomate
+    - id: 23
+      nome: Pepino
+    - id: 24
+      nome: Couve-roxa
+    - id: 25
+      nome: Couve cozida
+    - id: 26
+      nome: Alface
+    - id: 27
+      nome: Couve-flor
+    - id: 28
+      nome: Tomate
 
   sobremesas:
-    - Banana
-    - Pera
-    - Laranja
-    - Tangerina
-    - Kiwi
-    - Maçã
+    - id: 29
+      nome: Banana
+    - id: 30
+      nome: Pera
+    - id: 31
+      nome: Laranja
+    - id: 32
+      nome: Tangerina
+    - id: 33
+      nome: Kiwi
+    - id: 34
+      nome: Maçã
 
   lanches:
-    - Pão de mistura
-    - Queijo
-    - Leite
-    - Tangerina
-    - Compota
-    - Iogurte líquido
-    - Cereais de milho
+    - id: 35
+      nome: Pão de mistura
+    - id: 36
+      nome: Queijo
+    - id: 37
+      nome: Leite
+    - id: 38
+      nome: Tangerina
+    - id: 39
+      nome: Compota
+    - id: 40
+      nome: Iogurte líquido
+    - id: 41
+      nome: Cereais de milho

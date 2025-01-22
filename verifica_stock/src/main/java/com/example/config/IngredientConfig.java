@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 import java.util.Map;
 
-@Setter
 @Getter
+@Setter
 @Configuration
 @ConfigurationProperties(prefix = "ingredientes")
 public class IngredientConfig {
