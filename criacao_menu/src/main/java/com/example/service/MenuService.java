@@ -4,7 +4,6 @@ import com.example.dto.MenuRequestDTO;
 import com.example.dto.MenuResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,43 +12,33 @@ import java.util.List;
 public class MenuService {
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    private final String verificaStockUrl = "http://localhost:8083/api/stock";
+    private StockClient stockClient;
 
     public MenuResponseDTO createMenu(MenuRequestDTO request) {
         List<String> menus = new ArrayList<>();
 
         for (int i = 0; i < request.getDays(); i++) {
-            // Generate a menu for one day
+            if (!stockClient.checkStock()) {
+                return new MenuResponseDTO(null, "Stock insuficiente", 0, null, null, null, null);
+            }
+
             String menu = generateMenu(request.getType());
             menus.add(menu);
         }
 
-        return new MenuResponseDTO(menus);
+        return new MenuResponseDTO(null, request.getType(), request.getDays(), menus, null, null, null);
     }
 
     private String generateMenu(String type) {
-        // Mock stock check (replace this with real verifica_stock logic)
-        boolean enoughStock = checkStock();
-
-        if (!enoughStock) {
-            return "Not enough stock to generate menu.";
+        switch (type.toLowerCase()) {
+            case "vegetarian":
+                return "Vegetarian menu: Soup, Salad, Vegetarian Main Dish, Dessert, Snack";
+            case "fish":
+                return "Fish menu: Fish Soup, Grilled Fish, Dessert, Snack";
+            case "meat":
+                return "Meat menu: Meat Soup, Steak, Dessert, Snack";
+            default:
+                throw new IllegalArgumentException("Invalid menu type: " + type);
         }
-
-        // Generate menu based on type
-        if ("vegetarian".equalsIgnoreCase(type)) {
-            return "Vegetarian menu: Soup, Salad, Vegetarian Main Dish, Dessert, Snack";
-        } else if ("fish".equalsIgnoreCase(type)) {
-            return "Fish menu: Fish Soup, Grilled Fish, Dessert, Snack";
-        } else {
-            return "Meat menu: Meat Soup, Steak, Dessert, Snack";
-        }
-    }
-
-    private boolean checkStock() {
-        // Example REST call to verifica_stock
-        Boolean response = restTemplate.getForObject(verificaStockUrl + "/check", Boolean.class);
-        return response != null && response;
     }
 }
