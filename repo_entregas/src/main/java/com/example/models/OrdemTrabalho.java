@@ -48,7 +48,7 @@ public class OrdemTrabalho implements Serializable {
     @Column(name = "data_entrega", nullable = true)
     private Date dataEntrega;
 
-    @Column(name = "rota_entrega", nullable = false)
+    @Column(name = "rota_entrega", nullable = true)
     private String enderecoEntrega;
 
     @Column(name = "contacto", nullable = false)

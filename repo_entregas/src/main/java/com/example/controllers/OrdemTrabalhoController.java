@@ -1,7 +1,11 @@
 package com.example.controllers;
 import com.example.dtos.OrdemTrabalhoDTO;
+import com.example.dtos.RequisicaoAceitacaoDTO;
 import com.example.enums.OrderStatus;
+import com.example.exceptions.MissingDataException;
 import com.example.exceptions.OrdemTrabalhoNotFound;
+import com.example.exceptions.UtilizadorServiceUnexpectedException;
+import com.example.exceptions.UtilizadoresUnexistingFuncionarioException;
 import com.example.messaging.OTPublisher;
 import com.example.models.OrdemTrabalho;
 import com.example.service.OrdemTrabalhoService;
@@ -137,6 +141,17 @@ public class OrdemTrabalhoController {
         );
     }
 
+    @PostMapping("/{id}/accept")
+    ResponseEntity<?> acceptOrdem(@PathVariable Integer id, @RequestBody RequisicaoAceitacaoDTO requisicao) throws UtilizadoresUnexistingFuncionarioException, UtilizadorServiceUnexpectedException, MissingDataException {
+
+        if (!id.equals(requisicao.getOrdemTrabalhoId())) {
+            return ResponseEntity.badRequest().body("Order ID in the URL does not match the DTO");
+        }
+
+        String response = OtService.acceptOrdem(requisicao, "OT_queue");
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/funcionario/{funcionarioId}")
     public ResponseEntity<List<OrdemTrabalhoDTO>> getPorFuncionario(@PathVariable Integer funcionarioId) {
         logger.info("List de ordens de trabalho por id de funcionario: {}", funcionarioId);
@@ -151,7 +166,7 @@ public class OrdemTrabalhoController {
     }
 
     @PutMapping("/{id}/assign/{funcionarioId}")
-    ResponseEntity<?> assignFuncionario(@PathVariable Integer OTid, @PathVariable Integer funcionarioId) {
+    ResponseEntity<?> assignFuncionario(@PathVariable Integer id, @PathVariable Integer funcionarioId) {
         OrdemTrabalho updatedOrdem;
         try {
            //updatedOrdem = OtService.assignOT(OTid, funcionarioId);

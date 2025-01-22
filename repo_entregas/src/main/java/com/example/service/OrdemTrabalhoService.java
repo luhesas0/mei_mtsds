@@ -3,11 +3,14 @@ package com.example.service;
 import com.example.data.OrdemTrabalhoRepository;
 import com.example.dtos.FuncionarioDTO;
 import com.example.dtos.OrderDTO;
+import com.example.dtos.RequisicaoAceitacaoDTO;
 import com.example.enums.OrderStatus;
 import com.example.exceptions.*;
 import com.example.models.OrdemTrabalho;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,7 +21,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,6 +36,11 @@ public class OrdemTrabalhoService {
 
     @Autowired
     private OrdemTrabalhoRepository repository;
+
+    @Autowired
+    private RabbitTemplate rabbit;
+    @Autowired
+    private OrdemTrabalhoRepository ordemTrabalhoRepository;
 
     public List<OrdemTrabalho> getAll() {
         logger.info("(LS) Listing all OTs");
@@ -152,6 +159,41 @@ public class OrdemTrabalhoService {
         } else {
             logger.info("Order with ID: {} not found", id);
             throw new OrdemTrabalhoNotFound(id);
+        }
+    }
+
+    public String acceptOrdem(RequisicaoAceitacaoDTO requisicao, String otQueue) throws UtilizadoresUnexistingFuncionarioException, UtilizadorServiceUnexpectedException, MissingDataException {
+        Object message = rabbit.receiveAndConvert(otQueue);
+        FuncionarioDTO funcionario = getFuncionario(requisicao.getFuncionarioId());
+
+        if (message == null) {
+            return "No message found";
+        }
+
+        try {
+            OrdemTrabalho ordemTrabalho = ordemTrabalhoRepository.findById(requisicao.getOrdemTrabalhoId())
+                    .orElseThrow(() -> new InvalidOrdemTrabalho(requisicao.getOrdemTrabalhoId()));
+
+            if (ordemTrabalho.getStatus() == OrderStatus.ACCEPTED) {
+                return "Ordem de trabalho já aceita.";
+            }
+
+            if(requisicao.isAceite() && funcionario.getVehicleCapacity() >= requisicao.getCapacidadeVeiculo()) {
+                ordemTrabalho.setStatus(OrderStatus.ACCEPTED);
+                ordemTrabalho.setFuncionarioId(requisicao.getFuncionarioId());
+                System.out.println("Ordem de trabalho aceite (verificacao de capacidade de veiculo)");
+                ordemTrabalhoRepository.save(ordemTrabalho);
+            } else {
+                ordemTrabalho.setStatus(OrderStatus.CANCELED);
+            }
+
+            ordemTrabalho.setStatus(OrderStatus.ACCEPTED);
+            ordemTrabalho.setFuncionarioId(requisicao.getFuncionarioId());
+            ordemTrabalhoRepository.save(ordemTrabalho);
+
+            return "Ordem de trabalho aceite";
+        } catch (Exception e) {
+            return "Erro ao consumir message no rabbit: " + e.getMessage();
         }
     }
 }

@@ -22,7 +22,7 @@ public class OTConsumer {
         this.funcionarioClient = funcionarioClient;
     }
 
-    @RabbitListener(queues = "ot-queue")
+    //@RabbitListener(queues = "OT_queue")
     public void acceptOT(RequisicaoAceitacaoDTO requisicao) {
         System.out.println("Mensagem recebida: " + requisicao);
 
