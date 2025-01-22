@@ -138,40 +138,6 @@ public class OrdemTrabalhoService {
         repository.save(ordemTrabalho);
     }
 
-    public void getOrder(String orderId)
-            throws MissingDataException, MenuServiceUnexpectedException, CriacaoMenuUnexistingMenuException {
-        String url = gestaoMenusUrl + "/{orderId}" + orderId;
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            //request
-            ResponseEntity<OrderDTO> response = restTemplate.getForEntity(
-                    gestaoMenusUrl + "/{orderId}",
-                    OrderDTO.class,
-                    orderId
-            );
-
-            OrderDTO orderDTO = response.getBody();
-            OrdemTrabalho ordemTrabalho = new OrdemTrabalho();
-            ordemTrabalho.setMenuId(orderDTO.getMenuId());
-            ordemTrabalho.setQuantidade(orderDTO.getQuantity());
-            ordemTrabalho.setStatus(OrderStatus.PENDING);
-            ordemTrabalho.setDataCriacao(new Date());
-            ordemTrabalho.setEnderecoEntrega(orderDTO.getDeliveryAddress());
-            ordemTrabalho.setContacto(orderDTO.getContact());
-            ordemTrabalho.setNomeCliente(orderDTO.getClientName());
-
-            repository.save(ordemTrabalho);
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            if(e.getStatusCode() == HttpStatus.BAD_REQUEST) {
-                throw new MenuServiceUnexpectedException();
-            } else if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
-                throw new CriacaoMenuUnexistingMenuException();
-            } else {
-                throw new MissingDataException();
-            }
-        }
-    }
-
     public OrdemTrabalho updateOTStatus(Integer id, OrderStatus status) throws OrdemTrabalhoNotFound {
         OrdemTrabalho ordemTrabalho = get(id);
         ordemTrabalho.setStatus(status);
