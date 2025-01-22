@@ -3,14 +3,11 @@ package com.example.messages;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 public class StockResponseMessage {
-
-    // Getters and Setters
     private Long stockId;
     private String name;
-    private int availableQuantity;
+    private Integer availableQuantity;
     private double price;
-
 }
