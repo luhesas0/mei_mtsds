@@ -7,18 +7,18 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Getter @Setter
-@EqualsAndHashCode
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Menu implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type; // meat, vegetarian, fish
+    private String type; // Tipo de menu: meat, vegetarian, fish
 
     @ElementCollection
     private List<String> mainDishes;
@@ -32,5 +32,5 @@ public class Menu implements Serializable {
     @ElementCollection
     private List<String> snacks;
 
-    private Integer numberOfDays;
+    private Integer numberOfDays; // Validade do menu
 }

@@ -19,4 +19,10 @@ public class RabbitMQConfig {
     public Queue stockResponseQueue() {
         return new Queue("stockResponseQueue", true);
     }
+
+    @Bean
+public Queue stockAlertQueue() {
+    return new Queue("stock.alert.queue");
+}
+
 }

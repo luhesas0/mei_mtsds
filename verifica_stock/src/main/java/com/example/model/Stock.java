@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "stock")
 public class Stock implements Serializable {
-
     @Id
     @GeneratedValue
     private Long id;
@@ -33,5 +32,6 @@ public class Stock implements Serializable {
     @CollectionTable(name = "stock_ingredients", joinColumns = @JoinColumn(name = "stock_id"))
     @Column(name = "ingredient")
     private List<String> ingredients;
-
+    @Column(name = "nivel_minimo", nullable = false)
+    private Integer nivelMinimo;
 }

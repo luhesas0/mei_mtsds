@@ -42,5 +42,5 @@ public class Permissao {
     private LocalDateTime dataModificacao; //Data da última modificação da permissão
 
     @ManyToMany(mappedBy = "permissoes")
-    private List<Role> papeis; //Relação com os papéis (Role) que possuem esta permissão
+    private List<Roles> papeis; //Relação com os papéis (Role) que possuem esta permissão
 }
