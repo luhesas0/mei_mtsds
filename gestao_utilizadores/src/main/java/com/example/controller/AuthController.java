@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.controller;
 
 import jakarta.validation.Valid;
 import com.example.dto.AutenticacaoDTO;

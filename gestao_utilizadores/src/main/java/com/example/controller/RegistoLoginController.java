@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.controller;
 
 import com.example.dto.RegistoLoginDTO;
 import com.example.models.RegistoLogin;

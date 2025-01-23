@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
   <component name="AdditionalModuleElements">
-    <content url="file://$MODULE_DIR$/gestao_utilizadores">
-      <sourceFolder url="file://$MODULE_DIR$/gestao_utilizadores/src/main/java/com/example" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/gestao_utilizadores" dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/gestao_utilizadores/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gestao_utilizadores/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/gestao_utilizadores/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/gestao_utilizadores/src/test/resources" isTestSource="true" />
     </content>
+  </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/gestao_utilizadores/src/main/java" />
+      </list>
+    </option>
   </component>
 </module>

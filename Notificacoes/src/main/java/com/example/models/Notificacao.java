@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 /**
- * Representa notificações enviadas a motoristas relacionadas a entregas.
+ * Representa notificações enviadas para utilizadores (FUNCIONARIO_ENTREGA ou clientes).
  */
 @Data
 @NoArgsConstructor
@@ -24,16 +24,16 @@ public class Notificacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // Identificador único da notificação.
 
-    @Column(nullable = false)
-    private Long motoristaId; // ID do motorista notificado.
+    @Column(name = "utilizador_id", nullable = false)
+    private Long utilizadorId; // ID do destinatário (cliente ou funcionário).
 
-    @Column(nullable = false)
+    @Column(name = "entrega_id", nullable = false)
     private Long entregaId; // ID da entrega associada.
 
-    @Column(nullable = false, length = 500)
+    @Column(name = "mensagem", nullable = false, length = 500)
     private String mensagem; // Conteúdo da notificação.
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name = "criado_em", updatable = false)
     private LocalDateTime criadoEm; // Data de criação da notificação.
 }

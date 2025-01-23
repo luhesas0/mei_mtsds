@@ -5,41 +5,37 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 /**
  * Representa o status de uma entrega,
- * incluindo informações sobre o motorista, veículo e status atual.
+ * incluindo informações sobre o funcionário (entregador).
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "status_entregas")
-@EntityListeners(AuditingEntityListener.class)
 public class StatusEntrega {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // Identificador único do status da entrega.
 
-    @Column(nullable = false)
+    @Column(name = "entrega_id", nullable = false)
     private Long entregaId; // ID da entrega associada.
 
-    @Column(nullable = false)
-    private Long motoristaId; // ID do motorista responsável.
+    @Column(name = "utilizador_id", nullable = false)
+    private Long utilizadorId; // ID do funcionário responsável pela entrega.
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private StatusEntregaEnum status;  // Status da entrega ("ACEITO_PARA_ENTREGA", "REJEITADO"...)
 
-    @Column(nullable = false)
+    @Column(name= "veiculo", length = 50)
     private String veiculo; // Veículo atribuído para a entrega.
 
-    @CreatedDate
-    @Column(updatable = false)
+    @Column(name= "atualizado_em", nullable = false)
     private LocalDateTime atualizadoEm; // Data de atualização do status.
 }

@@ -1,4 +1,4 @@
-package com.example.models;
+package com.example.enums;
 
 /**
  * Enumeração que define os papéis dos utilizadores no sistema.

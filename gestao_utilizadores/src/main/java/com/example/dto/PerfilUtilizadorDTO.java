@@ -1,6 +1,6 @@
 package com.example.dto;
 
-import com.example.models.TipoUtilizador;
+import com.example.enums.TipoUtilizador;
 import lombok.Getter;
 import lombok.Setter;
 

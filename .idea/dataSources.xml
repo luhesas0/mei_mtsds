@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="postgres@localhost" uuid="6ef68baa-09f2-4e54-b5cd-4d35fb9caadd">
+    <data-source source="LOCAL" name="utilizadores@localhost" uuid="6ef68baa-09f2-4e54-b5cd-4d35fb9caadd">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -20,11 +20,21 @@
       <jdbc-url>jdbc:h2:mem:testdb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="schema@notificacoes" uuid="63f7bc7a-78c7-4e85-a6ad-e404e0620af2">
+    <data-source source="LOCAL" name="notificacoes@localhost" uuid="2018f773-da35-407e-a735-bd8798ac623f">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/notificacoes</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="notificacoe@localhost" uuid="b8ceb70a-4a97-4d05-b06f-cc98c870ec26">
+      <driver-ref>h2.unified</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.h2.Driver</jdbc-driver>
+      <jdbc-url>jdbc:h2:mem:/notificacao</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>
