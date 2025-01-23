@@ -1,0 +1,44 @@
+# repo-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: repo-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: repo
+  template:
+    metadata:
+      labels:
+        app: repo
+    spec:
+      containers:
+        - name: repo_entregas
+          image: your-microservice-image:latest
+          ports:
+            - containerPort: 8074  # Port where your microservice listens
+          env:
+            - name: DB_HOST
+              value: "host.docker.internal"  # Docker host IP (use "localhost" on Linux)
+            - name: DB_PORT
+              value: "5432"  # Exposed port of your database
+            - name: DB_USER
+              value: "admin"
+            - name: DB_PASSWORD
+              value: "admin"
+            - name: DB_NAME
+              value: "repo_db"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: repo-service
+spec:
+  selector:
+    app: repo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8074
+  type: ClusterIP

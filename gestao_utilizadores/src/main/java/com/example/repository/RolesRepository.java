@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Repositório para a entidade Papel (role).
  */
-public interface PapelRepository extends JpaRepository<Roles, String> {
+public interface RolesRepository extends JpaRepository<Roles, String> {
 }

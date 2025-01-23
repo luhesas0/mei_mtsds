@@ -3,6 +3,7 @@ package com.example.controllers;
 import com.example.dto.StockDTO;
 import com.example.services.StockService;
 import com.example.services.IngredientService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ public class StockController {
 
     @Autowired
     private final StockService stockService;
+
+    //private final ModelMapper modelMapper;
 
     @Autowired
     private final IngredientService ingredientService;

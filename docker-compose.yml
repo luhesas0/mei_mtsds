@@ -72,19 +72,57 @@ version: '3.8'
 
 services:
 
-  postgres:
-    image: postgres:16.0
-    container_name: postgres_server
+  repo_entregas_db:
+    image: postgres
+    container_name: repo_db
+    restart: always
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: foodStream
+      POSTGRES_DB: repo_db
     ports:
       - 5432:5432
     volumes:
-      - ./Docker/postgresql:/var/lib/postgresql/data
-#    networks:
-#      - mtsds-network
+      - ./Docker/postgres/repo_entregas:/var/lib/postgresql/data
+
+  stock_db:
+    image: postgres
+    container_name: stock_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: stock_db
+    ports:
+        - 5433:5433
+    volumes:
+        - ./Docker/postgres/stock:/var/lib/postgresql/data
+
+  utilizadores_db:
+    image: postgres
+    container_name: utilizadores_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: utilizadores_db
+    ports:
+        - 5434:5434
+    volumes:
+        - ./Docker/postgres/utilizadores:/var/lib/postgresql/data
+
+  menu_db:
+    image: postgres
+    container_name: menu_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: menu_db
+    ports:
+        - 5435:5435
+    volumes:
+        - ./Docker/postgres/menu:/var/lib/postgresql/data
 
   pgadmin:
     container_name: pgadmin
@@ -93,7 +131,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: 8210396@estg.ipp.pt
       PGADMIN_DEFAULT_PASSWORD: pgadmin1234
     ports:
-        - "9999:80"
+        - "8081:80"
 #    networks:
 #      - mtsds-network
 
@@ -116,6 +154,8 @@ volumes:
     name: notificacao_pgdata
   logs_volume:
     driver: local
+
+
 #
 #networks:
 #  mtsds-network:

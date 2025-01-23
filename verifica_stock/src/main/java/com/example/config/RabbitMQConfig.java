@@ -21,7 +21,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-public Queue stockAlertQueue() {
+    public Queue stockAlertQueue() {
     return new Queue("stock.alert.queue");
 }
 

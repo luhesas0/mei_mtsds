@@ -34,4 +34,5 @@ public class Stock implements Serializable {
     private List<String> ingredients;
     @Column(name = "nivel_minimo", nullable = false)
     private Integer nivelMinimo;
+
 }

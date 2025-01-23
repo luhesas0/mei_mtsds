@@ -9,10 +9,9 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class PapelDTO {
+public class RolesDTO {
     private String id; //Identificador único do papel.
     private String nome;  //Nome do papel (ADMIN, FUNCIONARIO, CLIENTE)
     private String descricao; //Descrição opcional do papel
     private List<PermissaoDTO> permissoes; // Permissoes associadas ao papel
 }
-
