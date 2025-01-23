@@ -73,6 +73,12 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
+        <!--starter-logging - Implementar logs na aplicacao-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+
         <!-- Spring Data JPA para persistência -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -96,12 +102,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <version>4.0.2</version>
-        </dependency>
-
-        <!--Starter Mail-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
         <!--H2 para testes-->
