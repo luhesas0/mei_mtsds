@@ -96,7 +96,7 @@ public class OrdemTrabalhoService {
         }
     }
 
-    private FuncionarioDTO getFuncionario(Integer funcionario_id)
+    public FuncionarioDTO getFuncionario(Integer funcionario_id)
             throws UtilizadorServiceUnexpectedException, UtilizadoresUnexistingFuncionarioException, MissingDataException {
 
         FuncionarioDTO funcionarioDTO;

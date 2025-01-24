@@ -216,6 +216,21 @@ public class OrdemTrabalhoController {
         ordemAtualizada = OtService.updateOTStatus(id, ordemEntregaDTO.getStatus());
         return ResponseEntity.ok(ordemAtualizada);
     }
+
+    //testing only
+    @GetMapping("/func/{funcionarioId}")
+    ResponseEntity<?> getFuncionario (@PathVariable Integer funcionarioId) {
+        try {
+            return ResponseEntity.ok(OtService.getFuncionario(funcionarioId));
+        } catch (UtilizadoresUnexistingFuncionarioException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (UtilizadorServiceUnexpectedException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (MissingDataException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
 }
 
 
