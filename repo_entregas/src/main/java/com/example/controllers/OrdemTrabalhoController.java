@@ -1,5 +1,6 @@
 package com.example.controllers;
 import com.example.dtos.OrdemTrabalhoDTO;
+import com.example.dtos.OrderDTO;
 import com.example.dtos.RequisicaoAceitacaoDTO;
 import com.example.enums.OrderStatus;
 import com.example.exceptions.MissingDataException;
@@ -9,6 +10,7 @@ import com.example.exceptions.UtilizadoresUnexistingFuncionarioException;
 import com.example.messaging.OTPublisher;
 import com.example.models.OrdemTrabalho;
 import com.example.service.OrdemTrabalhoService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -74,19 +77,42 @@ public class OrdemTrabalhoController {
     }
 
     @PostMapping
-    ResponseEntity<?> add(@RequestBody OrdemTrabalhoDTO ordemEntregaDTO) {
+    ResponseEntity<?> add(@RequestBody OrderDTO orderDTO) {
         OrdemTrabalho newOrdem;
         try {
-            newOrdem = OtService.add(modelMapper.map(ordemEntregaDTO, OrdemTrabalho.class));
+            // Create a new OrdemTrabalho entity and map fields from the DTO
+            OrdemTrabalho ordem = new OrdemTrabalho();
+
+            ordem.setMenuId(orderDTO.getMenuId());
+            ordem.setQuantidade(orderDTO.getQuantity());
+            ordem.setNomeCliente(orderDTO.getClientName());
+            ordem.setContacto(orderDTO.getContact());
+            ordem.setEnderecoEntrega(orderDTO.getDeliveryAddress());
+
+            // Set default values for fields not provided by the client
+            ordem.setStatus(OrderStatus.PENDING); // Default status
+            ordem.setDataCriacao(new Date()); // Set creation date
+            ordem.setFuncionarioId(null); // To be assigned later
+            ordem.setDataEntrega(null); // To be updated later
+
+            // Save the OrdemTrabalho using your service
+            newOrdem = OtService.add(ordem);
+
+            // Optionally publish an event after saving
             publisher.publish(newOrdem);
+
         } catch (Exception e) {
+            // Handle any exceptions and return a BAD_REQUEST response
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }
+
+        // Map the saved entity back to a response DTO and return a CREATED response
         return new ResponseEntity<>(
-                modelMapper.map(newOrdem, OrdemTrabalhoDTO.class),
-                HttpStatus.CREATED);
+                modelMapper.map(newOrdem, OrdemTrabalhoDTO.class), // Response DTO
+                HttpStatus.CREATED
+        );
     }
 
     @PutMapping("/{id}")

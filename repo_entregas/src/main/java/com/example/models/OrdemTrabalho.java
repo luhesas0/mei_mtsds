@@ -19,9 +19,10 @@ import java.util.Date;
 @Table(name = "ordensTrabalho")
 @EntityListeners(AuditingEntityListener.class)
 public class OrdemTrabalho implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_ordemTrabalho", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_ordemTrabalho", nullable = false)
     private Integer orderId;
 
     // Foreign key reference to Funcionario, managed by another microservice

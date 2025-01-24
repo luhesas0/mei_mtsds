@@ -67,7 +67,7 @@ public class OrdemTrabalhoService {
 
     @Transactional
     public OrdemTrabalho add(OrdemTrabalho ordemTrabalho) {
-        if (repository.existsById(ordemTrabalho.getOrderId())) {
+        if (ordemTrabalho.getOrderId() != null && repository.existsById(ordemTrabalho.getOrderId())) {
             logger.info("(LS) Order with ID: {} already exists", ordemTrabalho.getOrderId());
             return null;
         } else {
@@ -164,7 +164,7 @@ public class OrdemTrabalhoService {
 
     public String acceptOrdem(RequisicaoAceitacaoDTO requisicao, String otQueue) throws UtilizadoresUnexistingFuncionarioException, UtilizadorServiceUnexpectedException, MissingDataException {
         Object message = rabbit.receiveAndConvert(otQueue);
-        FuncionarioDTO funcionario = getFuncionario(requisicao.getFuncionarioId());
+        //FuncionarioDTO funcionario = getFuncionario(requisicao.getFuncionarioId());
 
         if (message == null) {
             return "No message found";
@@ -178,7 +178,7 @@ public class OrdemTrabalhoService {
                 return "Ordem de trabalho já aceita.";
             }
 
-            if(requisicao.isAceite() && funcionario.getVehicleCapacity() >= requisicao.getCapacidadeVeiculo()) {
+            if(requisicao.isAceite()) {
                 ordemTrabalho.setStatus(OrderStatus.ACCEPTED);
                 ordemTrabalho.setFuncionarioId(requisicao.getFuncionarioId());
                 System.out.println("Ordem de trabalho aceite (verificacao de capacidade de veiculo)");

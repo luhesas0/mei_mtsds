@@ -85,7 +85,7 @@ services:
     volumes:
       - ./Docker/postgres/repo_entregas:/var/lib/postgresql/data
 
-  stock_db:
+  stock_container_db:
     image: postgres
     container_name: stock_db
     restart: always
@@ -94,11 +94,11 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: stock_db
     ports:
-        - 5433:5433
+        - 5431:5432
     volumes:
         - ./Docker/postgres/stock:/var/lib/postgresql/data
 
-  utilizadores_db:
+  utilizadores_container_db:
     image: postgres
     container_name: utilizadores_db
     restart: always
@@ -107,11 +107,11 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: utilizadores_db
     ports:
-        - 5434:5434
+        - 5434:5432
     volumes:
         - ./Docker/postgres/utilizadores:/var/lib/postgresql/data
 
-  menu_db:
+  menu_container_db:
     image: postgres
     container_name: menu_db
     restart: always
@@ -120,7 +120,7 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: menu_db
     ports:
-        - 5435:5435
+        - 5435:5432
     volumes:
         - ./Docker/postgres/menu:/var/lib/postgresql/data
 

@@ -25,7 +25,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="verifica_stock" options="-parameters" />
+      <module name="verifica_stock" options="" />
     </option>
   </component>
 </project>
