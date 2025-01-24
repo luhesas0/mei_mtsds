@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.controller;
 
 import com.example.dto.PermissaoDTO;
 import com.example.exceptions.PermissaoNaoEncontrada;

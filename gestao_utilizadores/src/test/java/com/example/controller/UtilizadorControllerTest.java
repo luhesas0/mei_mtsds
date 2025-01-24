@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.controller;
 
 public class UtilizadorControllerTest {
 }

@@ -1,5 +1,6 @@
 package com.example.models;
 
+import com.example.enums.TipoUtilizador;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

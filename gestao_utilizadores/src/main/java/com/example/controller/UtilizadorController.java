@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.controller;
 
 import com.example.dto.UtilizadorDTO;
 import com.example.exceptions.UtilizadorExistente;

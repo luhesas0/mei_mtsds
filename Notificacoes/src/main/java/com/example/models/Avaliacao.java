@@ -27,25 +27,23 @@ public class Avaliacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Identificador único da avaliação.
 
-    @Column(nullable = false)
+    @Column(name = "entrega_id", nullable = false)
     private Long entregaId; // ID da entrega associada (obtido do microserviço de repositório).
 
-    @Column(nullable = false)
-    private Long motoristaId; // ID do motorista avaliado (obtido do microserviço de gestão de utilizadores).
+    @Column(name = "utilizador_id", nullable = false)
+    private Long utilizadorId; // ID do cliente ou funcionário avaliado (obtido do microserviço de gestão de utilizadores).
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "criterio", nullable = false)
     private Criterio criterio; // Critério avaliado, definido no enum `Criterio`.
 
-    @Column(nullable = false)
+    @Column(name= "nota", nullable = false)
     private Integer nota; // Escala Likert (1 a 5).
 
-    @Column(length = 500)
+    @Column(name = "comentario", length = 500)
     private String comentario; // Comentário opcional fornecido pelo cliente.
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(name= "criado_em", updatable = false)
     private LocalDateTime criadoEm; // Data de criação da avaliação.
-
-
 }
