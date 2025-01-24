@@ -16,7 +16,9 @@ public class RouteValidator {
             "/auth/register",  //Registo de novos utilizadores
             "/auth/login",     // Login de utilizadores
             "/eureka",         // Endpoint do Eureka Server
-            "/utilizadores/landing" //Verificação do serviço de utilizadores
+            "/utilizadores/landing",
+            "/rotas/"
+            //Verificação do serviço de utilizadores
             );
 
     //Predicate para verificar se uma rota é protegida

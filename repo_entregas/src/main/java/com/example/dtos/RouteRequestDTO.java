@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RotaRequestDTO {
-    private String endereco;
+public class RouteRequestDTO {
+    private String origin;
+    private String destination;
 }

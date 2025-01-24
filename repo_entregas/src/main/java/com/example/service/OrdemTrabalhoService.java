@@ -1,13 +1,10 @@
 package com.example.service;
 
 import com.example.data.OrdemTrabalhoRepository;
-import com.example.dtos.FuncionarioDTO;
-import com.example.dtos.OrderDTO;
-import com.example.dtos.RequisicaoAceitacaoDTO;
+import com.example.dtos.*;
 import com.example.enums.OrderStatus;
 import com.example.exceptions.*;
 import com.example.models.OrdemTrabalho;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -28,19 +26,23 @@ public class OrdemTrabalhoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrdemTrabalhoService.class);
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Value("${endpoints.gestao_utilizadores.url}")
     private String gestaoUtilizadoresUrl;
 
     @Value("${endpoints.criacao_menu.url}")
     private String gestaoMenusUrl;
 
+    @Value("${endpoints.calculo_rotas.url}")
+    private String calculoRotasUrl;
+
     @Autowired
     private OrdemTrabalhoRepository repository;
 
     @Autowired
     private RabbitTemplate rabbit;
-    @Autowired
-    private OrdemTrabalhoRepository ordemTrabalhoRepository;
 
     public List<OrdemTrabalho> getAll() {
         logger.info("(LS) Listing all OTs");
@@ -171,7 +173,7 @@ public class OrdemTrabalhoService {
         }
 
         try {
-            OrdemTrabalho ordemTrabalho = ordemTrabalhoRepository.findById(requisicao.getOrdemTrabalhoId())
+            OrdemTrabalho ordemTrabalho = repository.findById(requisicao.getOrdemTrabalhoId())
                     .orElseThrow(() -> new InvalidOrdemTrabalho(requisicao.getOrdemTrabalhoId()));
 
             if (ordemTrabalho.getStatus() == OrderStatus.ACCEPTED) {
@@ -182,18 +184,47 @@ public class OrdemTrabalhoService {
                 ordemTrabalho.setStatus(OrderStatus.ACCEPTED);
                 ordemTrabalho.setFuncionarioId(requisicao.getFuncionarioId());
                 System.out.println("Ordem de trabalho aceite (verificacao de capacidade de veiculo)");
-                ordemTrabalhoRepository.save(ordemTrabalho);
+                repository.save(ordemTrabalho);
             } else {
                 ordemTrabalho.setStatus(OrderStatus.CANCELED);
             }
 
             ordemTrabalho.setStatus(OrderStatus.ACCEPTED);
             ordemTrabalho.setFuncionarioId(requisicao.getFuncionarioId());
-            ordemTrabalhoRepository.save(ordemTrabalho);
+            repository.save(ordemTrabalho);
 
             return "Ordem de trabalho aceite";
         } catch (Exception e) {
             return "Erro ao consumir message no rabbit: " + e.getMessage();
+        }
+    }
+
+    public RouteSummaryDTO getRoute(Integer ordemId) throws OrdemTrabalhoNotFound {
+        OrdemTrabalho ordem = repository.findById(ordemId)
+                .orElseThrow(() -> new OrdemTrabalhoNotFound(ordemId));
+
+
+        if (ordem.getEnderecoEntrega() == null || ordem.getEnderecoEntrega().isEmpty()) {
+            throw new IllegalArgumentException("A ordem de trabalho não possui um endereço de entrega válido.");
+        }
+
+        RouteRequestDTO routeRequest = new RouteRequestDTO();
+        routeRequest.setOrigin("R. do Curral, 4610-156 Margaride, Portugal");
+        routeRequest.setDestination(ordem.getEnderecoEntrega());
+
+        try {
+            logger.info("Sending route request to URL: {}", calculoRotasUrl);
+            logger.info("Request payload: origin={}, destination={}", routeRequest.getOrigin(), routeRequest.getDestination());
+
+                    ResponseEntity<RouteSummaryDTO> response = restTemplate.postForEntity(
+                    calculoRotasUrl,
+                    routeRequest,
+                    RouteSummaryDTO.class
+            );
+
+            return response.getBody();
+        } catch (RestClientException e) {
+            throw new RuntimeException("Erro ao calcular a rota: " + e.getMessage(), e);
         }
     }
 }

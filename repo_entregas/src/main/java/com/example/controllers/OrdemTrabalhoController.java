@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static java.lang.constant.ConstantDescs.NULL;
+
 @RestController
 @RequestMapping("/repositorio")
 public class OrdemTrabalhoController {
@@ -33,14 +35,12 @@ public class OrdemTrabalhoController {
     @Autowired
     private OrdemTrabalhoService OtService;
 
-    private final ModelMapper modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private OTPublisher publisher;
 
-    public OrdemTrabalhoController() {
-        this.modelMapper = new ModelMapper();
-    }
 
     @GetMapping("/landing")
     public ResponseEntity<String> landing() {
@@ -80,7 +80,6 @@ public class OrdemTrabalhoController {
     ResponseEntity<?> add(@RequestBody OrderDTO orderDTO) {
         OrdemTrabalho newOrdem;
         try {
-            // Create a new OrdemTrabalho entity and map fields from the DTO
             OrdemTrabalho ordem = new OrdemTrabalho();
 
             ordem.setMenuId(orderDTO.getMenuId());
@@ -89,26 +88,21 @@ public class OrdemTrabalhoController {
             ordem.setContacto(orderDTO.getContact());
             ordem.setEnderecoEntrega(orderDTO.getDeliveryAddress());
 
-            // Set default values for fields not provided by the client
+            Date dataEntrega = null;
             ordem.setStatus(OrderStatus.PENDING); // Default status
             ordem.setDataCriacao(new Date()); // Set creation date
             ordem.setFuncionarioId(null); // To be assigned later
-            ordem.setDataEntrega(null); // To be updated later
+            ordem.setDataEntrega(dataEntrega); // To be updated later
 
-            // Save the OrdemTrabalho using your service
             newOrdem = OtService.add(ordem);
-
-            // Optionally publish an event after saving
             publisher.publish(newOrdem);
 
         } catch (Exception e) {
-            // Handle any exceptions and return a BAD_REQUEST response
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }
 
-        // Map the saved entity back to a response DTO and return a CREATED response
         return new ResponseEntity<>(
                 modelMapper.map(newOrdem, OrdemTrabalhoDTO.class), // Response DTO
                 HttpStatus.CREATED
@@ -217,7 +211,18 @@ public class OrdemTrabalhoController {
         return ResponseEntity.ok(ordemAtualizada);
     }
 
-    //testing only
+    @GetMapping("/{id}/route")
+    ResponseEntity<?> getRoute(@PathVariable Integer id) {
+        try {
+            return ResponseEntity.ok(OtService.getRoute(id));
+        } catch (OrdemTrabalhoNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    //testing only - needs auth
     @GetMapping("/func/{funcionarioId}")
     ResponseEntity<?> getFuncionario (@PathVariable Integer funcionarioId) {
         try {
@@ -232,6 +237,5 @@ public class OrdemTrabalhoController {
     }
 
 }
-
 
 

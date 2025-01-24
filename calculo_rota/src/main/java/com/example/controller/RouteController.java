@@ -3,6 +3,7 @@ package com.example.controller;
 
 import com.example.dtos.RouteRequestDTO;
 import com.example.dtos.RouteResponseDTO;
+import com.example.dtos.RouteSummaryDTO;
 import com.example.service.RouteService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -38,9 +39,8 @@ public class RouteController {
             return ResponseEntity.badRequest().body("A origem e o destino não podem ser iguais.");
         }
 
+        RouteSummaryDTO response = routeService.calcularRota(request);
 
-
-        RouteResponseDTO response = routeService.calcularRota(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

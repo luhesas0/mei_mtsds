@@ -10,6 +10,7 @@ spring:
 eureka:
   instance:
     hostname: localhost
+    upper-case-service-id: false # Prevents Eureka from converting service IDs to uppercase
   client:
     register-with-eureka: false
     fetch-registry: false

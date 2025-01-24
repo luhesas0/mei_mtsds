@@ -40,12 +40,11 @@ public class OrdemTrabalho implements Serializable {
     @Column(name = "status", length = 50)
     private OrderStatus status;
 
+    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data_criacao", nullable = false)
     private Date dataCriacao;
 
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data_entrega", nullable = true)
     private Date dataEntrega;
 

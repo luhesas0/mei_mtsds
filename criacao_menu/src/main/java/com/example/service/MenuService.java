@@ -29,6 +29,8 @@ public class MenuService {
         return new MenuResponseDTO(null, request.getType(), request.getDays(), menus, null, null, null);
     }
 
+
+
     private String generateMenu(String type) {
         switch (type.toLowerCase()) {
             case "vegetarian":
@@ -41,4 +43,6 @@ public class MenuService {
                 throw new IllegalArgumentException("Invalid menu type: " + type);
         }
     }
+
+
 }
